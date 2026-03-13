@@ -1,0 +1,27 @@
+#include "Engine.h"
+
+void Engine::CreateNormalWindowAndRun(HINSTANCE hInstance)
+{
+	_window.InitDebugConsole();
+	_window.CreateMainWindow(hInstance);
+	_window.ShowMainWindow();
+	_window.MessageLoopRun();
+}
+
+void Engine::CreateWindowOnWorkerWAndRun(HINSTANCE hInstance)
+{
+	_window.InitDebugConsole();
+	_window.CreateMainWindow(hInstance);
+	_workerW.SpawnWorkerW();
+	_workerW.FindWorkerW();
+	_window.AttachHwndToWorkerW(_workerW.GetWorkerW());
+	_window.ShowMainWindow();
+	_window.MessageLoopRun();
+}
+
+void Engine::SeeWindowTree()
+{
+	_window.InitDebugConsole();
+	_workerW.SpawnWorkerW();
+	_workerW.PrintWindowThree();
+}
