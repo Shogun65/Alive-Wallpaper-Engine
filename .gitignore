@@ -1,13 +1,12 @@
 x64/
 Debug/
 Release/
-#i have no idea what iam doing
 *.obj
 *.pdb
 *.exe
 *.dll
 *.ilk
 *.log
-
 *.user
 *.suo
+.vs/
