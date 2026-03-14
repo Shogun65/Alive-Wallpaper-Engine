@@ -19,8 +19,6 @@ void Window::InitDebugConsole()
     freopen_s(&f, "CONOUT$", "w", stderr);
     freopen_s(&f, "CONIN$", "r", stdin);
 
-    std::ios::sync_with_stdio();
-
     printf("----Debug console----\n");
 }
 
@@ -140,7 +138,7 @@ void Window::AttachHwndToWorkerW(HWND WorkerW)
         rc.bottom - rc.top,
         SWP_NOACTIVATE | SWP_SHOWWINDOW
     );
-    printf("WorkerW: %d x %d", rc.right, rc.bottom);
+    printf("WorkerW: %d x %d", rc.right -rc.left, rc.bottom-rc.top);
 }
 
 void Window::ShowMainWindow()
