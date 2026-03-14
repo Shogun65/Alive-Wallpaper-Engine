@@ -9,7 +9,7 @@ public:
 	* This Funs call FindWorkerW_T1 and so on..
 	* And this Funs also handel if _T1 fails than it 
 	* Run _T2 so on.. Until it find workerW if he unable to find workerW
-	* than i dont know what to do it just thow a Error Messagebox one okay
+	* than it just thow a Error Messagebox
 	* And exit Progman thats it
 	*/
 	void FindWorkerW();

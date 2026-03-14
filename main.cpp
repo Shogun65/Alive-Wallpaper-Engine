@@ -1,5 +1,5 @@
 #include "Engine.h"
-
+#include <cstdlib>
 
 int WINAPI wWinMain(
 	HINSTANCE hInstance, HINSTANCE ignore, LPWSTR pCmdLine, int nCmdShow)
@@ -11,4 +11,6 @@ int WINAPI wWinMain(
 
 	engine.CreateWindowOnWorkerWAndRun(hInstance);
 	
+	return EXIT_SUCCESS;
+
 }

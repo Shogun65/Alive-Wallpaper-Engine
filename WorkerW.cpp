@@ -1,5 +1,6 @@
 #include "WorkerW.h"
 #include <iostream>
+#include <cstdlib>
 
 //Return WorkerW
 HWND WorkerW::GetWorkerW() const
@@ -35,7 +36,7 @@ void WorkerW::SpawnWorkerW()
 		_Progman,
 		0x052C,
 		0xD,
-		0,
+		1,
 		SMTO_NORMAL,
 		1000,
 		nullptr
@@ -45,11 +46,12 @@ void WorkerW::SpawnWorkerW()
 		_Progman,
 		0x052C,
 		0xD,
-		1,
+		0,
 		SMTO_NORMAL,
 		1000,
 		nullptr
 	);
+
 
 }
 
@@ -63,8 +65,13 @@ void WorkerW::FindWorkerW()
 		printf("Finding WorkerW fail by _T1\n");
 		printf("Trying on _T2\n");
 		EnumWindows(FindWorkerW_T2, (LPARAM)this);
+		printf("Done Runing _T2\n");
 	}
 
+	if(_WorkerW == nullptr)
+	{
+		MessageBox(nullptr, L"Cant Find WorkerW", L"Error WorkerW", MB_ICONERROR);
+	}
 }
 
 
