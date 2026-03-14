@@ -62,6 +62,7 @@ void WorkerW::FindWorkerW()
 	{
 		printf("Finding WorkerW fail by _T1\n");
 		printf("Trying on _T2\n");
+		EnumWindows(FindWorkerW_T2, (LPARAM)this);
 	}
 
 }
@@ -97,8 +98,30 @@ BOOL CALLBACK WorkerW::FindWorkerW_T1(HWND hwnd, LPARAM lparam)
 
 BOOL CALLBACK WorkerW::FindWorkerW_T2(HWND hwnd, LPARAM lparam)
 {
-	// for now we can leave this one fouse on _T1
-	return false;
+	WorkerW* self = (WorkerW*)lparam;
+
+	wchar_t WindowName_[1024];
+
+	GetClassName(hwnd, WindowName_, sizeof(WindowName_));
+
+	if (wcscmp(WindowName_, L"WorkerW") == 0)
+	{
+		HWND maybeWorkerW = FindWindowExW(hwnd, nullptr, L"SHELLDLL_DefView", nullptr);
+		printf("HWND: %p , maybeWorkerW: %ws\n", hwnd, WindowName_);
+		// Let me say whats going on here..
+		// we chack WorkerW if it have SHELLDLL_DefView if it have than we skip it
+		// because we want a workerW who child of progman and also Empty
+		// SO we chack if maybeWorkerW is NULL or not.. if it NULL than mean its empty
+		// Thats the WorkerW we want 
+		if (!maybeWorkerW)
+		{
+			self->_WorkerW = hwnd;
+			printf("WorkerW found! by _T2\n");
+			printf("HWND: %p , WorkerW: %ws\n", hwnd, WindowName_);
+			return false;
+		}
+	}
+	return true;
 
 }
 
