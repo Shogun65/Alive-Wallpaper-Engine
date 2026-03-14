@@ -106,6 +106,23 @@ BOOL CALLBACK WorkerW::FindWorkerW_T2(HWND hwnd, LPARAM lparam)
 
 	if (wcscmp(WindowName_, L"WorkerW") == 0)
 	{
+		HWND WorkerWParent = GetParent(hwnd);
+
+		/*
+		* Now you aksing your self why chack hwnd Parent on _T2 but now in _T1
+		* Remember that we call _T1 by EnumChildWindows(_Progman, ...)
+		* Yes that means give every window that is child of Progman
+		* But some Windows version. program child are Not under him so we need
+		* to see top level window but in top level there are many other WorkerW
+		* So we Chack if this WorkerW are child of progman or not than we chack if it
+		* have SHELLDLL_DefView or not if not than and also this workerW is child of
+		* Program thats the WorkerW we want.
+		*/
+		if(WorkerWParent != self-> _Progman)
+		{
+			return true;
+		}
+
 		HWND maybeWorkerW = FindWindowExW(hwnd, nullptr, L"SHELLDLL_DefView", nullptr);
 		printf("HWND: %p , maybeWorkerW: %ws\n", hwnd, WindowName_);
 		// Let me say whats going on here..
