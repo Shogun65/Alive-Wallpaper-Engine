@@ -68,6 +68,7 @@ void WorkerW::FindWorkerW()
 		printf("Done Runing _T2\n");
 	}
 
+	//Chack agian
 	if(_WorkerW == nullptr)
 	{
 		MessageBox(nullptr, L"Cant Find WorkerW", L"Error WorkerW", MB_ICONERROR);

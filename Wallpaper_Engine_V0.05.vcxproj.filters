@@ -22,6 +22,9 @@
     <Filter Include="Source Files\src\core">
       <UniqueIdentifier>{93e59fe8-30e9-440e-8d9b-aa634415c2c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\src\DX">
+      <UniqueIdentifier>{4d33b47d-369d-4e85-b0cf-262f198aa85c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -44,6 +47,12 @@
     </ClInclude>
     <ClInclude Include="WorkerW.h">
       <Filter>Source Files\src\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="DXDevice.h">
+      <Filter>Source Files\src\DX</Filter>
+    </ClInclude>
+    <ClInclude Include="SwapChain.h">
+      <Filter>Source Files\src\DX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +80,12 @@
     </ClCompile>
     <ClCompile Include="WorkerW.cpp">
       <Filter>Source Files\src\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="DXDevice.cpp">
+      <Filter>Source Files\src\DX</Filter>
+    </ClCompile>
+    <ClCompile Include="SwapChain.cpp">
+      <Filter>Source Files\src\DX</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
