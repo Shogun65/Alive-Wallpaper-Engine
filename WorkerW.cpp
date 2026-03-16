@@ -92,9 +92,9 @@ BOOL CALLBACK WorkerW::FindWorkerW_T1(HWND hwnd, LPARAM lparam)
 {
 	WorkerW* self = (WorkerW*)lparam;
 
-	wchar_t WindowName_[512];
+	wchar_t WindowName_[1024];
 	
-	GetClassName(hwnd, WindowName_, sizeof(WindowName_));
+	GetClassName(hwnd, WindowName_, _countof(WindowName_));
 	
 	if(wcscmp(WindowName_, L"WorkerW") == 0)
 	{
@@ -122,7 +122,7 @@ BOOL CALLBACK WorkerW::FindWorkerW_T2(HWND hwnd, LPARAM lparam)
 
 	wchar_t WindowName_[1024];
 
-	GetClassName(hwnd, WindowName_, sizeof(WindowName_));
+	GetClassName(hwnd, WindowName_, _countof(WindowName_));
 
 	if (wcscmp(WindowName_, L"WorkerW") == 0)
 	{
@@ -175,7 +175,7 @@ BOOL CALLBACK WorkerW::WindowTree(HWND hwnd, LPARAM lparam)
 {
 	wchar_t classnames[1024];
 
-	GetClassNameW(hwnd, classnames, sizeof(classnames));
+	GetClassNameW(hwnd, classnames, _countof(classnames));
 
 	printf("HWND: %p , ClassNames: %ws\n", hwnd, classnames);
 
