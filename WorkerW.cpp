@@ -83,7 +83,7 @@ void WorkerW::FindWorkerW()
 	if(_WorkerW == nullptr)
 	{
 		MessageBox(nullptr, L"Cant Find WorkerW", L"Error WorkerW", MB_ICONERROR);
-		std::exit(EXIT_SUCCESS);
+		std::exit(EXIT_FAILURE);
 	}
 }
 
