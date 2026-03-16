@@ -98,9 +98,9 @@ bool Window::CreateMainWindow(HINSTANCE hInstance)
     //This is For us To know the window size Thats it
     RECT rc;
     GetClientRect(_hwnd, &rc);
-    _WindowWeight = rc.right - rc.left;
+    _WindowWidth = rc.right - rc.left;
     _WindowHeight = rc.bottom - rc.top;
-    wprintf(L"Window: %d x %d\n", _WindowWeight, _WindowHeight);
+    wprintf(L"Window: %d x %d\n", _WindowWidth, _WindowHeight);
 
     return true;  
 }
@@ -148,9 +148,9 @@ void Window::ShowMainWindow()
     ShowWindow(_hwnd, SW_SHOW);
 }
 
-LONG Window::GetWindowWeight() const 
+LONG Window::GetWindowWidth() const 
 {
-    return _WindowWeight;
+    return _WindowWidth;
 }
 
 LONG Window::GetWindowHeight() const

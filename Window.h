@@ -36,14 +36,14 @@ public:
 
 	// Cmom really you need to know what this two do
 	HWND GetHWND() const;
-	LONG GetWindowWeight() const;
+	LONG GetWindowWidth() const;
 	LONG GetWindowHeight() const;
 
 private:
 	// This is Our Window not a WorkerW Window
 	HWND _hwnd = nullptr;
 	
-	//Windows height And Weight for others if needed
-	LONG _WindowWeight = 0;
+	//Windows height And Width for others if needed
+	LONG _WindowWidth = 0;
 	LONG _WindowHeight = 0;
 };
