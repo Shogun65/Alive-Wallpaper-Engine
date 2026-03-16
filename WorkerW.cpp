@@ -68,7 +68,18 @@ void WorkerW::FindWorkerW()
 		printf("Done Runing _T2\n");
 	}
 
-	//Chack agian
+	//This IF Call agian FindWorkerW funs.. how many times it call
+	// it base on _WorkerWTry set to. like 2 than this try 2 times
+	// Even After This we cant Find WorkerW than next
+	// IF show messagebox and than std::exit(EXIT_SUCCESS)
+	//IMPROTAND: Dont over do it.. MAX set limit on _WorkerWTry is 3.
+	if(_WorkerW == nullptr && _WorkerWTry > 0)
+	{
+		_WorkerWTry--; // Dont forget this
+		printf("Calling For Find WorkerW agian, TRY: %d\n", _WorkerWTry);
+		FindWorkerW();
+	}
+	//Chack agian if still nallptr than exit the code but first show the messagebox
 	if(_WorkerW == nullptr)
 	{
 		MessageBox(nullptr, L"Cant Find WorkerW", L"Error WorkerW", MB_ICONERROR);
