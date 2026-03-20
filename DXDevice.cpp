@@ -3,12 +3,12 @@
 
 ID3D11Device* DXDevice::GetDevice() const
 {
-	return Device.Get();
+	return _Device.Get();
 }
 
 ID3D11DeviceContext* DXDevice::GetDeviceContext() const 
 {
-	return DeviceContext.Get();
+	return _DeviceContext.Get();
 }
 
 void DXDevice::CreateDeviceAndDeviceContext()
@@ -23,9 +23,9 @@ void DXDevice::CreateDeviceAndDeviceContext()
 		nullptr,
 		0,
 		D3D11_SDK_VERSION,
-		Device.GetAddressOf(),
+		_Device.GetAddressOf(),
 		nullptr,
-		DeviceContext.GetAddressOf()
+		_DeviceContext.GetAddressOf()
 	);
 
 	if(FAILED(hr))

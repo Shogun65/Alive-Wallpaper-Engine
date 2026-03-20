@@ -18,6 +18,6 @@ public:
 	ID3D11DeviceContext* GetDeviceContext() const;
 
 private:
-	ComPtr<ID3D11Device> Device;
-	ComPtr<ID3D11DeviceContext> DeviceContext;
+	ComPtr<ID3D11Device> _Device;
+	ComPtr<ID3D11DeviceContext> _DeviceContext;
 };
