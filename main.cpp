@@ -21,7 +21,7 @@ int WINAPI wWinMain(
 	
 	Engine engine;
 
-	engine.CreateWindowOnWorkerWAndRun(hInstance);
+	engine.testDx();
 	
 	return EXIT_SUCCESS;
 

@@ -2,6 +2,7 @@
 
 #include "Window.h"
 #include "WorkerW.h"
+#include "DXDevice.h"
 
 class Engine
 {
@@ -11,6 +12,7 @@ public:
 	void CreateNormalWindowAndRun(HINSTANCE Hinstance);
 	void CreateWindowOnWorkerWAndRun(HINSTANCE hInstance);
 	void SeeWindowTree();
+	void testDx();
 //  ^^^^^^^^^^^^^^^^^^^
 
 
@@ -19,4 +21,5 @@ public:
 private:
 	Window _window;
 	WorkerW _workerW;
+	DXDevice _dxdevice;
 };

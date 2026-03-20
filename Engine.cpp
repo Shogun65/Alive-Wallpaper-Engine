@@ -25,3 +25,10 @@ void Engine::SeeWindowTree()
 	_workerW.SpawnWorkerW();
 	_workerW.PrintWindowThree();
 }
+
+void Engine::testDx()
+{
+	_window.InitDebugConsole();
+	_dxdevice.CreateDeviceAndDeviceContext();
+
+}
