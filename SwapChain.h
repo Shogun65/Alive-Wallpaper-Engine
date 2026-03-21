@@ -11,10 +11,17 @@ class SwapChin
 public:
 
 	void CreateSwapChin1(LONG Height, LONG Width, ID3D11Device* device);
-	
+	void CreateRTVForBackBuffer(ID3D11Device* device, ID3D11DeviceContext* devicecontext);
+
 	IDXGISwapChain1* GetSwapChin() const;
+	UINT GetSwapChinWidth() const;
+	UINT GetSwapChinHeight() const;
 
 private:
 	ComPtr<IDXGISwapChain1> _SwapChin = nullptr;
 	ComPtr<IDXGIFactory2> _Factory = nullptr;
+	ComPtr<ID3D11RenderTargetView> _RTVForBackBuffer = nullptr;
+	ComPtr<ID3D11Texture2D> _BackBuffer = nullptr;
+	UINT _SwapChinWidth = 0;
+	UINT _SwapChinHeight = 0;
 };

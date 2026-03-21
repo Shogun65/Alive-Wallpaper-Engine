@@ -6,6 +6,16 @@ IDXGISwapChain1* SwapChin::GetSwapChin() const
 	return _SwapChin.Get();
 }
 
+UINT SwapChin::GetSwapChinWidth() const
+{
+	return _SwapChinWidth;
+}
+
+UINT SwapChin::GetSwapChinHeight() const
+{
+	return _SwapChinHeight;
+}
+
 void SwapChin::CreateSwapChin1(LONG Height, LONG Width, ID3D11Device* device)
 {
 	HRESULT hr;
@@ -48,3 +58,39 @@ void SwapChin::CreateSwapChin1(LONG Height, LONG Width, ID3D11Device* device)
 
 }
 
+void SwapChin::CreateRTVForBackBuffer(ID3D11Device* device, ID3D11DeviceContext* devicecontext)
+{
+	HRESULT hr;
+
+	hr = _SwapChin->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)_BackBuffer.GetAddressOf());
+
+	if (FAILED(hr))
+	{
+		MessageBox(nullptr, L"Error on GetBuffer", L"Error", MB_ICONERROR);
+		std::exit(EXIT_FAILURE);
+	}
+
+	device->CreateRenderTargetView(
+		_BackBuffer.Get(),
+		nullptr,
+		_RTVForBackBuffer.GetAddressOf()
+	);
+
+	D3D11_TEXTURE2D_DESC desc = { };
+
+	_BackBuffer->GetDesc(&desc);
+
+	_SwapChinWidth = desc.Width;
+	_SwapChinHeight = desc.Height;
+
+	D3D11_VIEWPORT vp = {0};
+
+	vp.Height = (FLOAT)_SwapChinHeight;
+	vp.Width = (FLOAT)_SwapChinWidth;
+	vp.MaxDepth = 1;
+
+	devicecontext->RSSetViewports(
+		1,
+		&vp
+	);
+}
