@@ -29,7 +29,7 @@ public:
 	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam);
 
 	//This Funs Attach Hwnd (our mainwindow) to workerW
-	//Call this Funs after WorkerW found. and before CreateMainWindow funs
+	//Call this Funs after WorkerW found.
 	void AttachHwndToWorkerW(HWND WorkerW);
 
 	void ShowMainWindow();

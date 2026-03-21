@@ -30,5 +30,16 @@ void Engine::testDx()
 {
 	_window.InitDebugConsole();
 	_dxdevice.CreateDeviceAndDeviceContext();
+}
 
+void Engine::testDXandSwapchin(HINSTANCE hInstance)
+{
+	_window.InitDebugConsole();
+	_window.CreateMainWindow(hInstance);
+	_dxdevice.CreateDeviceAndDeviceContext();
+
+	_swapchin.CreateSwapChin1(
+		_window.GetWindowHeight(),
+		_window.GetWindowWidth(),
+		_dxdevice.GetDevice());
 }

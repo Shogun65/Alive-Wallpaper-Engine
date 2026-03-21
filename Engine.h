@@ -3,6 +3,7 @@
 #include "Window.h"
 #include "WorkerW.h"
 #include "DXDevice.h"
+#include "SwapChain.h"
 
 class Engine
 {
@@ -13,6 +14,7 @@ public:
 	void CreateWindowOnWorkerWAndRun(HINSTANCE hInstance);
 	void SeeWindowTree();
 	void testDx();
+	void testDXandSwapchin(HINSTANCE hInstance);
 //  ^^^^^^^^^^^^^^^^^^^
 
 
@@ -22,4 +24,5 @@ private:
 	Window _window;
 	WorkerW _workerW;
 	DXDevice _dxdevice;
+	SwapChin _swapchin;
 };
