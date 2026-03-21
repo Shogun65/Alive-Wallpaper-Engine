@@ -53,7 +53,7 @@ void SwapChin::CreateSwapChin1(LONG Height, LONG Width, ID3D11Device* device)
 	}
 	else
 	{
-		printf("CreateSwapChainForComposition done!");
+		printf("CreateSwapChainForComposition done!\n");
 	}
 
 }
@@ -93,4 +93,5 @@ void SwapChin::CreateRTVForBackBuffer(ID3D11Device* device, ID3D11DeviceContext*
 		1,
 		&vp
 	);
+	printf("Backbuffer done!\n");
 }

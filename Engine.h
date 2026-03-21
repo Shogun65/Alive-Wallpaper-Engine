@@ -4,6 +4,7 @@
 #include "WorkerW.h"
 #include "DXDevice.h"
 #include "SwapChain.h"
+#include "DComp.h"
 
 class Engine
 {
@@ -15,6 +16,7 @@ public:
 	void SeeWindowTree();
 	void testDx();
 	void testDXandSwapchin(HINSTANCE hInstance);
+	void testDXandswapanddcomp(HINSTANCE hInstance);
 //  ^^^^^^^^^^^^^^^^^^^
 
 
@@ -25,4 +27,5 @@ private:
 	WorkerW _workerW;
 	DXDevice _dxdevice;
 	SwapChin _swapchin;
+	DComp _DComp;
 };

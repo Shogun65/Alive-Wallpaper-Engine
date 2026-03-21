@@ -25,6 +25,9 @@
     <Filter Include="Source Files\src\DX">
       <UniqueIdentifier>{4d33b47d-369d-4e85-b0cf-262f198aa85c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\src\DComp">
+      <UniqueIdentifier>{7e49a64e-c7c4-481c-983c-73b6f7b3f527}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -53,6 +56,9 @@
     </ClInclude>
     <ClInclude Include="SwapChain.h">
       <Filter>Source Files\src\DX</Filter>
+    </ClInclude>
+    <ClInclude Include="DComp.h">
+      <Filter>Source Files\src\DComp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +92,9 @@
     </ClCompile>
     <ClCompile Include="SwapChain.cpp">
       <Filter>Source Files\src\DX</Filter>
+    </ClCompile>
+    <ClCompile Include="DComp.cpp">
+      <Filter>Source Files\src\DComp</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

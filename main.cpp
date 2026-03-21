@@ -21,7 +21,7 @@ int WINAPI wWinMain(
 	
 	Engine engine;
 
-	engine.testDXandSwapchin(hInstance);
+	engine.testDXandswapanddcomp(hInstance);
 	Sleep(100000);
 	return EXIT_SUCCESS;
 

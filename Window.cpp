@@ -76,7 +76,7 @@ bool Window::CreateMainWindow(HINSTANCE hInstance)
     RegisterClassEx(&wc);
 
         _hwnd = CreateWindowEx(
-        WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW,
+        WS_EX_NOREDIRECTIONBITMAP | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW,
         wc.lpszClassName,
         L"",
         WS_POPUP,
