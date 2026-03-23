@@ -137,6 +137,7 @@
     <ClInclude Include="DXDevice.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Render.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="targetver.h" />
@@ -156,9 +157,13 @@
     <ClCompile Include="DXDevice.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Render.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WorkerW.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Window.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

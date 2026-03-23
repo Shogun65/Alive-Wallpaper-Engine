@@ -105,26 +105,6 @@ bool Window::CreateMainWindow(HINSTANCE hInstance)
     return true;  
 }
 
-void Window::MessageLoopRun()
-{
-    MSG msg = { };
-
-    while (msg.message != WM_QUIT)
-    {
-        if(PeekMessage(&msg, 0,0,0, PM_REMOVE))
-        {
-            TranslateMessage(&msg);
-            DispatchMessageW(&msg);
-        }
-        else
-        {
-            //DX render funs here
-        
-        }
-
-    }
-}
-
 void Window::AttachHwndToWorkerW(HWND WorkerW)
 {
     SetParent(_hwnd, WorkerW);
@@ -140,7 +120,7 @@ void Window::AttachHwndToWorkerW(HWND WorkerW)
         rc.bottom - rc.top,
         SWP_NOACTIVATE | SWP_SHOWWINDOW
     );
-    printf("WorkerW: %d x %d", rc.right -rc.left, rc.bottom-rc.top);
+    printf("WorkerW: %d x %d\n", rc.right -rc.left, rc.bottom-rc.top);
 }
 
 void Window::ShowMainWindow()

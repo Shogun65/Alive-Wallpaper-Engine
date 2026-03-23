@@ -16,6 +16,11 @@ UINT SwapChin::GetSwapChinHeight() const
 	return _SwapChinHeight;
 }
 
+ID3D11RenderTargetView* SwapChin::GetRTVOfBackBuffer() const
+{
+	return _RTVForBackBuffer.Get();
+}
+
 void SwapChin::CreateSwapChin1(LONG Height, LONG Width, ID3D11Device* device)
 {
 	HRESULT hr;
@@ -38,6 +43,9 @@ void SwapChin::CreateSwapChin1(LONG Height, LONG Width, ID3D11Device* device)
 	scd.Height = Height;
 	scd.Width = Width;
 	scd.Flags = DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT;
+
+	_SwapChinHeight = Height;
+	_SwapChinWidth = Width;
 
 	hr = _Factory->CreateSwapChainForComposition(
 		device,

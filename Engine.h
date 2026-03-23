@@ -5,6 +5,8 @@
 #include "DXDevice.h"
 #include "SwapChain.h"
 #include "DComp.h"
+#include "Render.h"
+
 
 class Engine
 {
@@ -17,6 +19,7 @@ public:
 	void testDx();
 	void testDXandSwapchin(HINSTANCE hInstance);
 	void testDXandswapanddcomp(HINSTANCE hInstance);
+	void MakeWindowRunwhitWorkerWandRunDXandswapchin(HINSTANCE hInstance);
 //  ^^^^^^^^^^^^^^^^^^^
 
 
@@ -28,4 +31,5 @@ private:
 	DXDevice _dxdevice;
 	SwapChin _swapchin;
 	DComp _DComp;
+	Render _render;
 };

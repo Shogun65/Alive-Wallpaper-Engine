@@ -5,7 +5,7 @@ void Engine::CreateNormalWindowAndRun(HINSTANCE hInstance)
 	_window.InitDebugConsole();
 	_window.CreateMainWindow(hInstance);
 	_window.ShowMainWindow();
-	_window.MessageLoopRun();
+	//_window.MessageLoopRun();
 }
 
 void Engine::CreateWindowOnWorkerWAndRun(HINSTANCE hInstance)
@@ -16,7 +16,7 @@ void Engine::CreateWindowOnWorkerWAndRun(HINSTANCE hInstance)
 	_workerW.FindWorkerW();
 	_window.AttachHwndToWorkerW(_workerW.GetWorkerW());
 	_window.ShowMainWindow();
-	_window.MessageLoopRun();
+	//_window.MessageLoopRun();
 }
 
 void Engine::SeeWindowTree()
@@ -57,4 +57,24 @@ void Engine::testDXandswapanddcomp(HINSTANCE hInstance)
 	_swapchin.CreateRTVForBackBuffer(_dxdevice.GetDevice(), _dxdevice.GetDeviceContext());
 	_DComp.CreateDComp(_window.GetHWND(), _swapchin.GetSwapChin(), _dxdevice.GetDevice());
 
+}
+
+void Engine::MakeWindowRunwhitWorkerWandRunDXandswapchin(HINSTANCE hInstance)
+{
+	_window.InitDebugConsole();
+	_window.CreateMainWindow(hInstance);
+	_workerW.SpawnWorkerW();
+	_workerW.FindWorkerW();
+	_window.AttachHwndToWorkerW(_workerW.GetWorkerW());
+	_dxdevice.CreateDeviceAndDeviceContext();
+	_swapchin.CreateSwapChin1(
+		_window.GetWindowHeight(),
+		_window.GetWindowWidth(),
+		_dxdevice.GetDevice());
+	_swapchin.CreateRTVForBackBuffer(_dxdevice.GetDevice(), _dxdevice.GetDeviceContext());
+	_DComp.CreateDComp(_window.GetHWND(), _swapchin.GetSwapChin(), _dxdevice.GetDevice());
+	_window.ShowMainWindow();
+	
+	_window.MessageLoopRun([&]() {_render.cleanscreen(_swapchin.GetRTVOfBackBuffer(), _swapchin.GetSwapChin(), _dxdevice.GetDeviceContext()); });
+	
 }

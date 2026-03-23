@@ -60,6 +60,9 @@
     <ClInclude Include="DComp.h">
       <Filter>Source Files\src\DComp</Filter>
     </ClInclude>
+    <ClInclude Include="Render.h">
+      <Filter>Source Files\src\DX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Wallpaper_Engine_V0.05.rc">
@@ -96,5 +99,13 @@
     <ClCompile Include="DComp.cpp">
       <Filter>Source Files\src\DComp</Filter>
     </ClCompile>
+    <ClCompile Include="Render.cpp">
+      <Filter>Source Files\src\DX</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Window.inl">
+      <Filter>Source Files\src\Window</Filter>
+    </None>
   </ItemGroup>
 </Project>

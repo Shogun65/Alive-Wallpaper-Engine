@@ -21,8 +21,8 @@ int WINAPI wWinMain(
 	
 	Engine engine;
 
-	engine.testDXandswapanddcomp(hInstance);
-	Sleep(100000);
+	engine.MakeWindowRunwhitWorkerWandRunDXandswapchin(hInstance);
+	
 	return EXIT_SUCCESS;
 
 }

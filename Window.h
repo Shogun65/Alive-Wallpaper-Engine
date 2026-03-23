@@ -15,7 +15,8 @@ public:
 	//This run the message loop. For Window and
 	// Inside this Message loop you going to Render Frames too
 	//
-	void MessageLoopRun();
+	template<typename render>
+	void MessageLoopRun(render renderfunc);
 
 	// As the name say it Enable Debug Console
 	// why we need debug Console because we really not going to use
@@ -47,3 +48,4 @@ private:
 	LONG _WindowWidth = 0;
 	LONG _WindowHeight = 0;
 };
+#include "Window.inl"

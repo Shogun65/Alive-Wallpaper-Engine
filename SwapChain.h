@@ -16,6 +16,7 @@ public:
 	IDXGISwapChain1* GetSwapChin() const;
 	UINT GetSwapChinWidth() const;
 	UINT GetSwapChinHeight() const;
+	ID3D11RenderTargetView* GetRTVOfBackBuffer() const;
 
 private:
 	ComPtr<IDXGISwapChain1> _SwapChin = nullptr;
