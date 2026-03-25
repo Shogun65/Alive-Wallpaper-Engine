@@ -59,6 +59,23 @@ void Engine::testDXandswapanddcomp(HINSTANCE hInstance)
 
 }
 
+/*
+*	Just my though ignore this:
+*	So today is 25th march of 2026.. and i working on this project
+*	because i want a wallpaper engine but wallpaper engien is not free and not
+*	Expensive too but i cant Afford because my parent dont really give me money
+*	for this kinda stuff. soo i start lookinh for other wallpaper engine options but
+*	other are heavy like really.. some of take like 70 or 100% use of my intel IGPU
+*	FYI i have a intel iris Xe.. and i want it too like take only 50 or 40% of use my
+*	GPU okay.. so thats why i started this project. and i test the prototype and it
+*	Working good i use everyday.. i set it to 'shell:startup' soo now it open as my laptop
+*	open and also it was not easy i choose to use DX11 and FYI agian i have no idea
+*	what a Graphic programming even is. and also by this project i learn so many new
+*	thinks and iam glad that i started this project. i mainly started this project like
+*	january 7 or 8th (2026) i forget but somethink like that thank you and sorry for my
+*	bad english 😅
+*/
+
 void Engine::MakeWindowRunwhitWorkerWandRunDXandswapchin(HINSTANCE hInstance)
 {
 	_window.InitDebugConsole();
