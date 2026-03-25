@@ -44,9 +44,6 @@ void SwapChin::CreateSwapChin1(LONG Height, LONG Width, ID3D11Device* device)
 	scd.Width = Width;
 	scd.Flags = DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT;
 
-	_SwapChinHeight = Height;
-	_SwapChinWidth = Width;
-
 	hr = _Factory->CreateSwapChainForComposition(
 		device,
 		&scd,
