@@ -6,7 +6,7 @@
 #include "SwapChain.h"
 #include "DComp.h"
 #include "Render.h"
-
+#include "FFmpeg.h"
 
 class Engine
 {
@@ -32,4 +32,5 @@ private:
 	SwapChin _swapchin;
 	DComp _DComp;
 	Render _render;
+	FFmpeg _ffmpeg;
 };

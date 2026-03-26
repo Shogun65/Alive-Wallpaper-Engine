@@ -28,6 +28,9 @@
     <Filter Include="Source Files\src\DComp">
       <UniqueIdentifier>{7e49a64e-c7c4-481c-983c-73b6f7b3f527}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\src\FFmpeg">
+      <UniqueIdentifier>{09b591a2-7367-4136-9900-314765a6e784}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -62,6 +65,9 @@
     </ClInclude>
     <ClInclude Include="Render.h">
       <Filter>Source Files\src\DX</Filter>
+    </ClInclude>
+    <ClInclude Include="FFmpeg.h">
+      <Filter>Source Files\src\FFmpeg</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -101,6 +107,9 @@
     </ClCompile>
     <ClCompile Include="Render.cpp">
       <Filter>Source Files\src\DX</Filter>
+    </ClCompile>
+    <ClCompile Include="FFmpeg.cpp">
+      <Filter>Source Files\src\FFmpeg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
