@@ -106,7 +106,7 @@ AVPixelFormat FFmpeg::get_pix_format
 			return *p;
 		}
 	}
-	return pix_fmt[171]; // idk forcefuly return AV_PIX_FMT_D3D11 that is == to 171
+	return AV_PIX_FMT_D3D11; // idk forcefuly return AV_PIX_FMT_D3D11 that is == to 171
 	// is that a good idea idk maybe? (who cares if it goig to chrash than it will crash😅)
 }
 
@@ -115,8 +115,12 @@ void FFmpeg::RunDecoderLoop()
 	while(_DecodedThreadruning)
 	{
 	
+
+
+
+
 	
 	
 	}
-
 }
+
