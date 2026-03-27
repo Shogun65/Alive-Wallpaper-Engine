@@ -1,6 +1,8 @@
 #pragma once
 
 #include <d3d11.h>
+#include <thread>
+#include <atomic>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -20,15 +22,27 @@ public:
 	void InitFFmpeg(const char* fileparth,
 		ID3D11Device* Device, ID3D11DeviceContext* DeviceContext);
 
-	static enum AVPixelFormat get_pix_format(
+	static AVPixelFormat get_pix_format(
 		AVCodecContext* CodecCtx,
 		const AVPixelFormat* pix_fmt);
+
+	~FFmpeg();
 
 private:
 	AVBufferRef* _HWDevice = nullptr;
 	AVFormatContext* _FormatContext = nullptr;
-	int _VideoStreamIndex = 0;
+	int _VideoStreamIndex = -1; // dont change this
 	const AVCodec* _Codec = nullptr;
 	AVCodecParameters* _CodecParameter = nullptr;
 	AVCodecContext* _CodecContext = nullptr;
+
+	/*
+	*	This is going to run on deffrent thread. when it run when it stop?
+	*	This Loop start when FFmpeginit func done!.	
+	*	When it stop well when the Whole EXE (dll whatever) exit..
+	*
+	*/
+	void RunDecoderLoop();
+	std::thread T_RunDecoderLoop;
+	std::atomic<bool> _DecodedThreadruning = true; // this is improtand
 };

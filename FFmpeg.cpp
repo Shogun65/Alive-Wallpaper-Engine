@@ -1,6 +1,14 @@
 #include "FFmpeg.h"
 #include <cstdlib>
 
+FFmpeg::~FFmpeg()
+{
+	_DecodedThreadruning = false;
+	if (T_RunDecoderLoop.joinable()) 
+	{
+		T_RunDecoderLoop.join();
+	}
+}
 
 /*
 *	This
@@ -75,6 +83,7 @@ void FFmpeg::InitFFmpeg(const char* fileparth,
 	else
 	{
 		printf("FFmpeginit done!\n");
+		T_RunDecoderLoop = std::thread(&FFmpeg::RunDecoderLoop, this);
 	}
 }
 
@@ -98,4 +107,16 @@ AVPixelFormat FFmpeg::get_pix_format
 		}
 	}
 	return pix_fmt[171]; // idk forcefuly return AV_PIX_FMT_D3D11 that is == to 171
-}						// is that a good idea idk maybe?
+	// is that a good idea idk maybe? (who cares if it goig to chrash than it will crash😅)
+}
+
+void FFmpeg::RunDecoderLoop()
+{ 
+	while(_DecodedThreadruning)
+	{
+	
+	
+	
+	}
+
+}
