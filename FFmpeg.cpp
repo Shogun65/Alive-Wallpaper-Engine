@@ -1,6 +1,7 @@
 #include "FFmpeg.h"
 #include <cstdlib>
 
+
 /*
 *	This
 * 
@@ -48,5 +49,53 @@ void FFmpeg::InitFFmpeg(const char* fileparth,
 			break;
 		}
 	}
+	
+	if(_VideoStreamIndex == -1)
+	{
+		MessageBox(nullptr, L"_VideoStreamIndex still -1", L"Error", MB_ICONERROR);
+		std::exit(EXIT_FAILURE);
+	}
 
+	_CodecParameter = _FormatContext->streams[_VideoStreamIndex]->codecpar;
+
+	_Codec = avcodec_find_decoder(_CodecParameter->codec_id);
+
+	_CodecContext = avcodec_alloc_context3(_Codec);
+
+	avcodec_parameters_to_context(_CodecContext, _CodecParameter);
+
+	_CodecContext->hw_device_ctx = _HWDevice;
+	_CodecContext->get_format = get_pix_format;
+	
+	if (avcodec_open2(_CodecContext, _Codec, nullptr) < 0)
+	{
+		MessageBox(nullptr, L"Error on avcodec_open2", L"Error", MB_ICONERROR);
+		std::exit(EXIT_FAILURE);
+	}
+	else
+	{
+		printf("FFmpeginit done!\n");
+	}
 }
+
+
+/*
+*
+* 
+* 
+*/
+AVPixelFormat FFmpeg::get_pix_format
+(
+	AVCodecContext* CodecCtx,
+	const AVPixelFormat* pix_fmt
+)
+{
+	for(const enum AVPixelFormat *p = pix_fmt; *p != AV_PIX_FMT_NONE; p++)
+	{
+		if(*p == AV_PIX_FMT_D3D11)
+		{
+			return *p;
+		}
+	}
+	return pix_fmt[171]; // idk forcefuly return AV_PIX_FMT_D3D11 that is == to 171
+}						// is that a good idea idk maybe?
