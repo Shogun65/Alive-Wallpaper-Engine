@@ -158,6 +158,7 @@
     <ClCompile Include="DXDevice.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="FFmpeg.cpp" />
+    <ClCompile Include="FrameQueue.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="SwapChain.cpp" />

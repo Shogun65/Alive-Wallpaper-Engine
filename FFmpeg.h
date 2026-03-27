@@ -46,3 +46,21 @@ private:
 	std::thread T_RunDecoderLoop;
 	std::atomic<bool> _DecodedThreadruning = true; // this is improtand
 };
+
+class FrameQueue
+{
+public:
+
+
+
+
+
+
+
+
+private:
+
+
+
+
+};
