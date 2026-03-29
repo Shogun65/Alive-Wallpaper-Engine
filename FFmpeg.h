@@ -20,7 +20,7 @@ class FFmpeg
 public:
 
 	void InitFFmpeg(const char* fileparth,
-		ID3D11Device* Device, ID3D11DeviceContext* DeviceContext);
+		ID3D11Device* Device, ID3D11DeviceContext* DeviceContext, int sizeofbuffer);
 
 	static AVPixelFormat get_pix_format(
 		AVCodecContext* CodecCtx,
@@ -30,6 +30,7 @@ public:
 
 private:
 	AVBufferRef* _HWDevice = nullptr;
+	AVBufferRef* _HWFrame = nullptr;
 	AVFormatContext* _FormatContext = nullptr;
 	int _VideoStreamIndex = -1; // dont change this
 	const AVCodec* _Codec = nullptr;
@@ -51,16 +52,20 @@ class FrameQueue
 {
 public:
 
+	FrameQueue(int sizeofbuffer);
+	~FrameQueue();
 
 
-
-
-
-
+	int GetSizeofBuffer() const;
+	AVFrame* pop();
+	void push(AVFrame* Frame);
 
 private:
 
+	AVFrame** _Buffer; // AVFrame** that we useing to store the pointer of AVFrame*
 
-
+	int _SizeofBuffer = 3; // A safe defualt well it not matter tho
+	std::atomic<int> _Tail = 0;
+	std::atomic<int> _Head = 0;
 
 };

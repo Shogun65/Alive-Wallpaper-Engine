@@ -17,7 +17,7 @@ FFmpeg::~FFmpeg()
 * 
 */
 void FFmpeg::InitFFmpeg(const char* fileparth, 
-	ID3D11Device* Device, ID3D11DeviceContext* DeviceContext)
+	ID3D11Device* Device, ID3D11DeviceContext* DeviceContext, int sizeofbuffer)
 {
 	_HWDevice = av_hwdevice_ctx_alloc(AV_HWDEVICE_TYPE_D3D11VA);
 
@@ -27,6 +27,7 @@ void FFmpeg::InitFFmpeg(const char* fileparth,
 
 	d3d11DeviceContext->device = Device;
 	d3d11DeviceContext->device_context = DeviceContext;
+
 
 	if(av_hwdevice_ctx_init(_HWDevice) < 0)
 	{
@@ -75,7 +76,39 @@ void FFmpeg::InitFFmpeg(const char* fileparth,
 
 	_CodecContext->hw_device_ctx = _HWDevice;
 	_CodecContext->get_format = get_pix_format;
-	
+	_CodecContext->sw_pix_fmt = AV_PIX_FMT_NV12;
+
+	_HWFrame = av_hwframe_ctx_alloc(_HWDevice);
+
+	if (!_HWFrame)
+	{
+		MessageBox(nullptr, L"Error on av_hwframe_ctx_alloc", L"Error", MB_ICONERROR);
+		std::exit(EXIT_FAILURE);
+	}
+
+	AVHWFramesContext* FrameCtx = (AVHWFramesContext*)_HWFrame->data;
+
+	AVD3D11VAFramesContext* D3D11Ctx = (AVD3D11VAFramesContext*)FrameCtx->hwctx;
+	D3D11Ctx->BindFlags = D3D11_BIND_DECODER | D3D11_BIND_SHADER_RESOURCE;
+
+	FrameCtx->width = _CodecContext->width;
+	FrameCtx->height = _CodecContext->height;
+	FrameCtx->format = AV_PIX_FMT_D3D11;
+	FrameCtx->sw_format = AV_PIX_FMT_NV12;
+	// sizeofbuffer is clamp soo it can be min 3 and max 18. that means max pool can be
+	// 24 and the less pool can be 9 because of that 6 we adding..
+	// soo no need to clamp here.. why adding 6 because pool needed to be bigger than
+	// frame queue! 6 is safe number to add more pool than queue
+	FrameCtx->initial_pool_size = (sizeofbuffer + 6);
+
+	if (av_hwframe_ctx_init(_HWFrame) < 0)
+	{
+		MessageBox(nullptr, L"Error on av_hwframe_ctx_init", L"Error", MB_ICONERROR);
+		std::exit(EXIT_FAILURE);
+	}
+
+	_CodecContext->hw_frames_ctx = av_buffer_ref(_HWFrame);
+
 	if (avcodec_open2(_CodecContext, _Codec, nullptr) < 0)
 	{
 		MessageBox(nullptr, L"Error on avcodec_open2", L"Error", MB_ICONERROR);

@@ -97,15 +97,17 @@ void Engine::MakeWindowRunwhitWorkerWandRunDXandswapchin(HINSTANCE hInstance)
 }
 
 void Engine::MakeWindowRunwhitWorkerWandRunDXandswapchinWhitFFmpeg(HINSTANCE hInstance, 
-	const char* fileparth)
+	const char* fileparth, int sizeofbuffer)
 {
 	_window.InitDebugConsole();
+	FrameQueue framequeue(sizeofbuffer);
 	_window.CreateMainWindow(hInstance);
 	_workerW.SpawnWorkerW();
 	_workerW.FindWorkerW();
 	_window.AttachHwndToWorkerW(_workerW.GetWorkerW());
 	_dxdevice.CreateDeviceAndDeviceContext();
-	_ffmpeg.InitFFmpeg(fileparth, _dxdevice.GetDevice(), _dxdevice.GetDeviceContext());
+	_ffmpeg.InitFFmpeg(fileparth, _dxdevice.GetDevice(),
+		_dxdevice.GetDeviceContext(), framequeue.GetSizeofBuffer());
 	_swapchin.CreateSwapChin1(
 		_window.GetWindowHeight(),
 		_window.GetWindowWidth(),

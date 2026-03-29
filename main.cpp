@@ -14,7 +14,7 @@ int WINAPI wWinMain(
 
 
 	engine.MakeWindowRunwhitWorkerWandRunDXandswapchinWhitFFmpeg(hInstance,
-		fileparth);
+		fileparth, 3);
 	
 	return EXIT_SUCCESS;
 
