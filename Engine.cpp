@@ -95,3 +95,25 @@ void Engine::MakeWindowRunwhitWorkerWandRunDXandswapchin(HINSTANCE hInstance)
 	_window.MessageLoopRun([&]() {_render.cleanscreen(_swapchin.GetRTVOfBackBuffer(), _swapchin.GetSwapChin(), _dxdevice.GetDeviceContext()); });
 	
 }
+
+void Engine::MakeWindowRunwhitWorkerWandRunDXandswapchinWhitFFmpeg(HINSTANCE hInstance, 
+	const char* fileparth)
+{
+	_window.InitDebugConsole();
+	_window.CreateMainWindow(hInstance);
+	_workerW.SpawnWorkerW();
+	_workerW.FindWorkerW();
+	_window.AttachHwndToWorkerW(_workerW.GetWorkerW());
+	_dxdevice.CreateDeviceAndDeviceContext();
+	_ffmpeg.InitFFmpeg(fileparth, _dxdevice.GetDevice(), _dxdevice.GetDeviceContext());
+	_swapchin.CreateSwapChin1(
+		_window.GetWindowHeight(),
+		_window.GetWindowWidth(),
+		_dxdevice.GetDevice());
+	_swapchin.CreateRTVForBackBuffer(_dxdevice.GetDevice(), _dxdevice.GetDeviceContext());
+	_DComp.CreateDComp(_window.GetHWND(), _swapchin.GetSwapChin(), _dxdevice.GetDevice());
+	_window.ShowMainWindow();
+
+	_window.MessageLoopRun([&]() {_render.cleanscreen(_swapchin.GetRTVOfBackBuffer(), _swapchin.GetSwapChin(), _dxdevice.GetDeviceContext()); });
+
+}

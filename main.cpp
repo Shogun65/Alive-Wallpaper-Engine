@@ -9,7 +9,12 @@ int WINAPI wWinMain(
 	
 	Engine engine;
 
-	engine.MakeWindowRunwhitWorkerWandRunDXandswapchin(hInstance);
+	const char* fileparth = "C:/Users/gmy87/Downloads/ayanami-rei-beneath-blue-light.3840x2160.mp4";
+
+
+
+	engine.MakeWindowRunwhitWorkerWandRunDXandswapchinWhitFFmpeg(hInstance,
+		fileparth);
 	
 	return EXIT_SUCCESS;
 

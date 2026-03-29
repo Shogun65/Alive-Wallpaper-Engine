@@ -7,6 +7,7 @@ FFmpeg::~FFmpeg()
 	if (T_RunDecoderLoop.joinable()) 
 	{
 		T_RunDecoderLoop.join();
+		printf("RunDecoderLoop stop! \n");
 	}
 }
 
@@ -90,7 +91,7 @@ void FFmpeg::InitFFmpeg(const char* fileparth,
 
 /*
 *
-* 
+*	You know what?.. i still kinda have no idea how this work but it work.
 * 
 */
 AVPixelFormat FFmpeg::get_pix_format
@@ -116,8 +117,8 @@ void FFmpeg::RunDecoderLoop()
 	{
 	
 
-
-
+		Sleep(100);
+		printf("Hello from RunDecoderLoop\n");
 
 	
 	
