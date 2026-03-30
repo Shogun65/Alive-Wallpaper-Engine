@@ -35,4 +35,5 @@ private:
 	DComp _DComp;
 	Render _render;
 	FFmpeg _ffmpeg;
+	FrameQueue _framequeue;
 };

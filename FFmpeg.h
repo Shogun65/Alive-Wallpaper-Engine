@@ -52,10 +52,9 @@ class FrameQueue
 {
 public:
 
-	FrameQueue(int sizeofbuffer);
 	~FrameQueue();
 
-
+	void init(int sizeofbuffer = 3);
 	int GetSizeofBuffer() const;
 	AVFrame* pop();
 	void push(AVFrame* Frame);
@@ -64,7 +63,7 @@ private:
 
 	AVFrame** _Buffer; // AVFrame** that we useing to store the pointer of AVFrame*
 
-	int _SizeofBuffer = 3; // A safe defualt well it not matter tho
+	int _SizeofBuffer = 3; // A safe defualt
 	std::atomic<int> _Tail = 0;
 	std::atomic<int> _Head = 0;
 

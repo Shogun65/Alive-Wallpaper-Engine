@@ -6,13 +6,10 @@
 * 
 */
 
-// buffer or Queue whatever you like. IMPROTAND: it just store the avframe pointer in Queue
-// not really frames. Frame are store is Pool ofc.. we just use it and free it. it fast
-FrameQueue::FrameQueue(int sizeofbuffer) :
-	_SizeofBuffer(std::clamp(sizeofbuffer, 3, 18)) // clamp it.. min is 3, max is 18
-									// dont change unless you know what you doing (ofc😅)
+void FrameQueue::init(int sizeofbuffer)
 {
-	//delete on ~FrameQueue()
+	_SizeofBuffer = std::clamp(sizeofbuffer, 3, 18);
+
 	_Buffer = new AVFrame* [_SizeofBuffer];
 
 	for(int i = 0; i < _SizeofBuffer; i++)
