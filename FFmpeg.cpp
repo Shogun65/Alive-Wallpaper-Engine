@@ -7,7 +7,7 @@ FFmpeg::~FFmpeg()
 	if (T_RunDecoderLoop.joinable()) 
 	{
 		T_RunDecoderLoop.join();
-		printf("RunDecoderLoop stop! \n");
+		printf("RunDecoderLoop stop! \n"); // well you will never see this
 	}
 }
 

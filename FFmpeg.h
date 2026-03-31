@@ -3,6 +3,8 @@
 #include <d3d11.h>
 #include <thread>
 #include <atomic>
+#include <mutex>
+#include <condition_variable>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -57,14 +59,19 @@ public:
 	void init(int sizeofbuffer = 3);
 	int GetSizeofBuffer() const;
 	AVFrame* pop();
-	void push(AVFrame* Frame);
+	bool push(AVFrame* Frame);
 
 private:
 
 	AVFrame** _Buffer; // AVFrame** that we useing to store the pointer of AVFrame*
 
 	int _SizeofBuffer = 3; // A safe defualt
-	std::atomic<int> _Tail = 0;
-	std::atomic<int> _Head = 0;
-
+	std::atomic<int> _Head = 0; // read
+	std::atomic<int> _Tail = 0; // write
+	std::atomic<int> _BufferCount = 0;
+	std::mutex _Mutex;
+	std::condition_variable _CondFull;
+	std::condition_variable _CondEmpty;
+	bool _Buffering = true; // renderer waits at start
+	int _StartThreshold = 0; // how many frames before render starts
 };

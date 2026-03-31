@@ -100,7 +100,7 @@ void Engine::MakeWindowRunwhitWorkerWandRunDXandswapchinWhitFFmpeg(HINSTANCE hIn
 	const char* fileparth, int sizeofbuffer)
 {
 	_window.InitDebugConsole();
-	_framequeue.init();
+	_framequeue.init(sizeofbuffer);
 	_window.CreateMainWindow(hInstance);
 	_workerW.SpawnWorkerW();
 	_workerW.FindWorkerW();
