@@ -5,6 +5,7 @@
 #include <atomic>
 #include <mutex>
 #include <condition_variable>
+#include <vector>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -16,6 +17,48 @@ extern "C" {
 #include <libavutil/hwcontext_d3d11va.h>
 #include <libavutil/pixdesc.h>
 }
+
+
+class FrameQueue
+{
+public:
+
+	~FrameQueue();
+
+	void init(int sizeofbuffer = 3);
+	int GetSizeofBuffer() const;
+	AVFrame* pop();
+	bool push(AVFrame* Frame);
+
+private:
+
+	AVFrame** _Buffer; // AVFrame** that we useing to store the pointer of AVFrame*
+
+	int _SizeofBuffer = 3; // A safe defualt
+	int _Head = 0; // read
+	int _Tail = 0; // write
+	int _BufferCount = 0;
+	std::mutex _Mutex;
+	std::condition_variable _CondFull;
+	std::condition_variable _CondEmpty;
+	bool _Buffering = true; // renderer waits at start
+	int _StartThreshold = 0; // how many frames before render starts
+};
+
+class FramePool
+{
+public:
+
+	void init(int sizeofqueue);
+	AVFrame* GetFrame();
+	void ReturnFrame(AVFrame* frame);
+	
+private:
+	
+	std::mutex _Mutex;
+	std::vector<AVFrame*> _FramePool;
+	std::condition_variable _Cond;
+};
 
 class FFmpeg
 {
@@ -29,7 +72,7 @@ public:
 		const AVPixelFormat* pix_fmt);
 
 	~FFmpeg();
-
+	
 private:
 	AVBufferRef* _HWDevice = nullptr;
 	AVBufferRef* _HWFrame = nullptr;
@@ -48,30 +91,8 @@ private:
 	void RunDecoderLoop();
 	std::thread T_RunDecoderLoop;
 	std::atomic<bool> _DecodedThreadruning = true; // this is improtand
-};
 
-class FrameQueue
-{
-public:
-
-	~FrameQueue();
-
-	void init(int sizeofbuffer = 3);
-	int GetSizeofBuffer() const;
-	AVFrame* pop();
-	bool push(AVFrame* Frame);
-
-private:
-
-	AVFrame** _Buffer; // AVFrame** that we useing to store the pointer of AVFrame*
-
-	int _SizeofBuffer = 3; // A safe defualt
-	std::atomic<int> _Head = 0; // read
-	std::atomic<int> _Tail = 0; // write
-	std::atomic<int> _BufferCount = 0;
-	std::mutex _Mutex;
-	std::condition_variable _CondFull;
-	std::condition_variable _CondEmpty;
-	bool _Buffering = true; // renderer waits at start
-	int _StartThreshold = 0; // how many frames before render starts
+	//classes
+	FramePool _framepool;
+	FrameQueue _framequeue;
 };

@@ -114,6 +114,9 @@
     <ClCompile Include="FrameQueue.cpp">
       <Filter>Source Files\src\FFmpeg</Filter>
     </ClCompile>
+    <ClCompile Include="FramePool.cpp">
+      <Filter>Source Files\src\FFmpeg</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Window.inl">

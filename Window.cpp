@@ -19,7 +19,12 @@ void Window::InitDebugConsole()
     freopen_s(&f, "CONOUT$", "w", stderr);
     freopen_s(&f, "CONIN$", "r", stdin);
 
+    // Disable buffering so prints from other threads appear immediately
+    setvbuf(stdout, NULL, _IONBF, 0);
+    setvbuf(stderr, NULL, _IONBF, 0);
+     
     printf("----Debug console----\n");
+    fflush(stdout);
 }
 
 /*

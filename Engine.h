@@ -36,4 +36,5 @@ private:
 	Render _render;
 	FFmpeg _ffmpeg;
 	FrameQueue _framequeue;
+	FramePool _framepool;
 };

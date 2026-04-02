@@ -16,6 +16,9 @@ void FrameQueue::init(int sizeofbuffer)
 	{
 		_Buffer[i] = nullptr;
 	}
+	FramePool _framepool;
+	_framepool.init(_SizeofBuffer); // NOTE: Dont give sizeofbuffer give _SizeofBuffer
+	printf("Framequeue and FramePool init done!\n");
 }
 
 FrameQueue::~FrameQueue()
@@ -27,6 +30,7 @@ FrameQueue::~FrameQueue()
 	delete[] _Buffer;
 }
 
+// or you can say Queue size
 int FrameQueue::GetSizeofBuffer() const 
 {
 	printf("Queue size return: %d\n", _SizeofBuffer);
@@ -42,14 +46,19 @@ bool FrameQueue::push(AVFrame* Frame)
 		return _BufferCount < (_SizeofBuffer - 1); // if Queue is full than wait
 	});
 
+	printf("Pushing Frame on Tail: %d\n", _Tail);
 	_Buffer[_Tail] = Frame; // put the frame pointer in Queue
 
 	_Tail = (_Tail + 1) % _SizeofBuffer; // move the Tail 
+	printf("Next Tail: %d\n", _Tail);
+
 	_BufferCount++; // Add when we get frame
+	printf("BufferCount: %d\n", _BufferCount);
 
 	if(_Buffering && _StartThreshold >= _BufferCount)
 	{
 		_Buffering = false;
+		printf("_Buffering Done!\n");
 	}
 
 	lock.unlock(); // before the notify_one!
@@ -69,6 +78,8 @@ AVFrame* FrameQueue::pop()
 	});
 
 	AVFrame* frame = _Buffer[_Head];
+
+	_Buffer[_Head] = nullptr; // good think to do. not really importand
 
 	_Head = (_Head + 1) % _SizeofBuffer;
 

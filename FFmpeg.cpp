@@ -140,21 +140,57 @@ AVPixelFormat FFmpeg::get_pix_format
 			return *p;
 		}
 	}
-	return AV_PIX_FMT_D3D11; // idk forcefuly return AV_PIX_FMT_D3D11 that is == to 171
-	// is that a good idea idk maybe? (who cares if it goig to chrash than it will crash😅)
+	return AV_PIX_FMT_YUV420P;
 }
 
 void FFmpeg::RunDecoderLoop()
 { 
+	printf("Decoder thread Runing!\n");
+	AVPacket* Packet = av_packet_alloc();
+
 	while(_DecodedThreadruning)
 	{
-	
+		printf("runing1\n");
+		if(av_read_frame(_FormatContext, Packet) < 0)
+		{
+			// End Of File
+			printf("Decoder thread stop!\n");
+			break;
+		}
+		printf("runing2\n");
+		if(Packet->stream_index == _VideoStreamIndex)
+		{
+			printf("runing3\n");
+			avcodec_send_packet(_CodecContext, Packet);
+			printf("runing4\n");
+			while(true)
+			{
+				printf("runing5\n");
+				AVFrame* frame = _framepool.GetFrame();
+				
+				int ret = avcodec_receive_frame(_CodecContext, frame);
+				
+				if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
+				{
+					printf("EAGAIN\n");
+					_framepool.ReturnFrame(frame);
+					break;
+				}
+				else if(ret < 0)
+				{
+					printf("Decoder error!\n");
+				}
+				else if (ret == 0) 
+				{
+					printf("runing\n");
+					_framequeue.push(frame);
+				}
+			}
 
-		Sleep(100);
-		printf("Hello from RunDecoderLoop\n");
-
-	
-	
+		}
+		av_packet_unref(Packet);
 	}
+	av_packet_free(&Packet);
+	printf("stop decoder\n");
 }
 
