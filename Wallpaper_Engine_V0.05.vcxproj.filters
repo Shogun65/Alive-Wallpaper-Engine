@@ -122,5 +122,8 @@
     <None Include="Window.inl">
       <Filter>Source Files\src\Window</Filter>
     </None>
+    <None Include="DecoderLoop.inl">
+      <Filter>Source Files\src\FFmpeg</Filter>
+    </None>
   </ItemGroup>
 </Project>

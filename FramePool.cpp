@@ -17,10 +17,14 @@ AVFrame* FramePool::GetFrame()
 {
 	std::unique_lock<std::mutex> lock(_Mutex);
 
+	printf("GetFrame before wait\n");
+	printf("FramePool size before wait: %d\n", (int)_FramePool.size()); // <-- add this
 	_Cond.wait(lock, [&]()
 	{
 		return !_FramePool.empty();
 	});
+
+	printf("GetFrame after wait\n");
 
 	std::cout << "getFrame called" << '\n';
 

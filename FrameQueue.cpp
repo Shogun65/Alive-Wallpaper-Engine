@@ -16,9 +16,7 @@ void FrameQueue::init(int sizeofbuffer)
 	{
 		_Buffer[i] = nullptr;
 	}
-	FramePool _framepool;
-	_framepool.init(_SizeofBuffer); // NOTE: Dont give sizeofbuffer give _SizeofBuffer
-	printf("Framequeue and FramePool init done!\n");
+	printf("Framequeue init done!\n");
 }
 
 FrameQueue::~FrameQueue()
@@ -88,6 +86,6 @@ AVFrame* FrameQueue::pop()
 	lock.unlock();
 
 	_CondFull.notify_one();
-
+	
 	return frame;
 }

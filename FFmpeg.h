@@ -19,6 +19,21 @@ extern "C" {
 }
 
 
+class FramePool
+{
+public:
+
+	void init(int sizeofqueue);
+	AVFrame* GetFrame();
+	void ReturnFrame(AVFrame* frame);
+
+private:
+
+	std::mutex _Mutex;
+	std::vector<AVFrame*> _FramePool;
+	std::condition_variable _Cond;
+};
+
 class FrameQueue
 {
 public:
@@ -43,21 +58,7 @@ private:
 	std::condition_variable _CondEmpty;
 	bool _Buffering = true; // renderer waits at start
 	int _StartThreshold = 0; // how many frames before render starts
-};
 
-class FramePool
-{
-public:
-
-	void init(int sizeofqueue);
-	AVFrame* GetFrame();
-	void ReturnFrame(AVFrame* frame);
-	
-private:
-	
-	std::mutex _Mutex;
-	std::vector<AVFrame*> _FramePool;
-	std::condition_variable _Cond;
 };
 
 class FFmpeg
@@ -71,8 +72,6 @@ public:
 		AVCodecContext* CodecCtx,
 		const AVPixelFormat* pix_fmt);
 
-	~FFmpeg();
-	
 private:
 	AVBufferRef* _HWDevice = nullptr;
 	AVBufferRef* _HWFrame = nullptr;
@@ -88,11 +87,7 @@ private:
 	*	When it stop well when the Whole EXE (dll whatever) exit..
 	*
 	*/
+	template<typename >
 	void RunDecoderLoop();
-	std::thread T_RunDecoderLoop;
 	std::atomic<bool> _DecodedThreadruning = true; // this is improtand
-
-	//classes
-	FramePool _framepool;
-	FrameQueue _framequeue;
 };

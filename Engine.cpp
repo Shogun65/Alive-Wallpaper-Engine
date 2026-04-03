@@ -101,12 +101,16 @@ void Engine::MakeWindowRunwhitWorkerWandRunDXandswapchinWhitFFmpeg(HINSTANCE hIn
 {
 	_window.InitDebugConsole();
 	_framequeue.init(sizeofbuffer);
+	_framepool.init(sizeofbuffer);
 	_window.CreateMainWindow(hInstance);
 	_workerW.SpawnWorkerW();
 	_workerW.FindWorkerW();
 	_window.AttachHwndToWorkerW(_workerW.GetWorkerW());
 	_dxdevice.CreateDeviceAndDeviceContext();
 	_ffmpeg.InitFFmpeg(fileparth, _dxdevice.GetDevice(),
+
+
+
 		_dxdevice.GetDeviceContext(), _framequeue.GetSizeofBuffer());
 	_swapchin.CreateSwapChin1(
 		_window.GetWindowHeight(),
@@ -116,6 +120,8 @@ void Engine::MakeWindowRunwhitWorkerWandRunDXandswapchinWhitFFmpeg(HINSTANCE hIn
 	_DComp.CreateDComp(_window.GetHWND(), _swapchin.GetSwapChin(), _dxdevice.GetDevice());
 	_window.ShowMainWindow();
 
-	_window.MessageLoopRun([&]() {_render.cleanscreen(_swapchin.GetRTVOfBackBuffer(), _swapchin.GetSwapChin(), _dxdevice.GetDeviceContext()); });
+	_window.MessageLoopRun([&]() 
+		{_render.cleanscreen(_swapchin.GetRTVOfBackBuffer(), 
+			_swapchin.GetSwapChin(), _dxdevice.GetDeviceContext()); });
 
 }

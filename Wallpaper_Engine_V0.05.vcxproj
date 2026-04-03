@@ -167,6 +167,7 @@
     <ClCompile Include="WorkerW.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="DecoderLoop.inl" />
     <None Include="Window.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

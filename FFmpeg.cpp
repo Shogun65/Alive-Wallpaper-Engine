@@ -1,16 +1,6 @@
 #include "FFmpeg.h"
 #include <cstdlib>
 
-FFmpeg::~FFmpeg()
-{
-	_DecodedThreadruning = false;
-	if (T_RunDecoderLoop.joinable()) 
-	{
-		T_RunDecoderLoop.join();
-		printf("RunDecoderLoop stop! \n"); // well you will never see this
-	}
-}
-
 /*
 *	This
 * 
@@ -117,7 +107,6 @@ void FFmpeg::InitFFmpeg(const char* fileparth,
 	else
 	{
 		printf("FFmpeginit done!\n");
-		T_RunDecoderLoop = std::thread(&FFmpeg::RunDecoderLoop, this);
 	}
 }
 
@@ -143,54 +132,4 @@ AVPixelFormat FFmpeg::get_pix_format
 	return AV_PIX_FMT_YUV420P;
 }
 
-void FFmpeg::RunDecoderLoop()
-{ 
-	printf("Decoder thread Runing!\n");
-	AVPacket* Packet = av_packet_alloc();
-
-	while(_DecodedThreadruning)
-	{
-		printf("runing1\n");
-		if(av_read_frame(_FormatContext, Packet) < 0)
-		{
-			// End Of File
-			printf("Decoder thread stop!\n");
-			break;
-		}
-		printf("runing2\n");
-		if(Packet->stream_index == _VideoStreamIndex)
-		{
-			printf("runing3\n");
-			avcodec_send_packet(_CodecContext, Packet);
-			printf("runing4\n");
-			while(true)
-			{
-				printf("runing5\n");
-				AVFrame* frame = _framepool.GetFrame();
-				
-				int ret = avcodec_receive_frame(_CodecContext, frame);
-				
-				if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
-				{
-					printf("EAGAIN\n");
-					_framepool.ReturnFrame(frame);
-					break;
-				}
-				else if(ret < 0)
-				{
-					printf("Decoder error!\n");
-				}
-				else if (ret == 0) 
-				{
-					printf("runing\n");
-					_framequeue.push(frame);
-				}
-			}
-
-		}
-		av_packet_unref(Packet);
-	}
-	av_packet_free(&Packet);
-	printf("stop decoder\n");
-}
 
