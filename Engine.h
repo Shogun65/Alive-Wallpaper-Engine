@@ -37,4 +37,7 @@ private:
 	FFmpeg _ffmpeg;
 	FrameQueue _framequeue;
 	FramePool _framepool;
+
+	//this is for decoder loop
+	std::thread _DecodeingLoop_Thread;
 };

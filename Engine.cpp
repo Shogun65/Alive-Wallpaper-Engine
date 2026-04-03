@@ -107,11 +107,19 @@ void Engine::MakeWindowRunwhitWorkerWandRunDXandswapchinWhitFFmpeg(HINSTANCE hIn
 	_workerW.FindWorkerW();
 	_window.AttachHwndToWorkerW(_workerW.GetWorkerW());
 	_dxdevice.CreateDeviceAndDeviceContext();
-	_ffmpeg.InitFFmpeg(fileparth, _dxdevice.GetDevice(),
-
-
-
+	_ffmpeg.InitFFmpeg(fileparth, _dxdevice.GetDevice(), 
 		_dxdevice.GetDeviceContext(), _framequeue.GetSizeofBuffer());
+
+	_DecodeingLoop_Thread = std::thread([&]()
+	{
+		_ffmpeg.RunDecoderLoop(
+			[&](AVFrame* f) {_framequeue.push(f); },
+			[&]() {return _framepool.GetFrame(); },
+			[&](AVFrame* f) {_framepool.ReturnFrame(f); }
+		);
+		
+	});
+
 	_swapchin.CreateSwapChin1(
 		_window.GetWindowHeight(),
 		_window.GetWindowWidth(),

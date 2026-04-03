@@ -2,7 +2,6 @@
 
 #include <d3d11.h>
 #include <thread>
-#include <atomic>
 #include <mutex>
 #include <condition_variable>
 #include <vector>
@@ -72,6 +71,9 @@ public:
 		AVCodecContext* CodecCtx,
 		const AVPixelFormat* pix_fmt);
 
+	template<typename Pushframe, typename GetFrame, typename ReturnFrame>
+	void RunDecoderLoop(Pushframe pushframe, GetFrame getframe, ReturnFrame returnframe);
+
 private:
 	AVBufferRef* _HWDevice = nullptr;
 	AVBufferRef* _HWFrame = nullptr;
@@ -87,7 +89,6 @@ private:
 	*	When it stop well when the Whole EXE (dll whatever) exit..
 	*
 	*/
-	template<typename >
-	void RunDecoderLoop();
 	std::atomic<bool> _DecodedThreadruning = true; // this is improtand
 };
+#include "DecoderLoop.inl"

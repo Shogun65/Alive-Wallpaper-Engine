@@ -1,5 +1,5 @@
-
-void FFmpeg::RunDecoderLoop()
+template<typename Pushframe, typename GetFrame, typename ReturnFrame>
+void FFmpeg::RunDecoderLoop(Pushframe pushframe, GetFrame getframe, ReturnFrame returnframe)
 {
 	printf("Decoder thread Runing!\n");
 	AVPacket* Packet = av_packet_alloc();
@@ -22,14 +22,14 @@ void FFmpeg::RunDecoderLoop()
 			while (true)
 			{
 				printf("runing5\n");
-				AVFrame* frame = GetFrame();
+				AVFrame* frame = getframe();
 				printf("runing6\n");
 				int ret = avcodec_receive_frame(_CodecContext, frame);
 
 				if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
 				{
 					printf("EAGAIN\n");
-					ReturnFrame(frame);
+					returnframe(frame);
 					break;
 				}
 				else if (ret < 0)
@@ -39,7 +39,7 @@ void FFmpeg::RunDecoderLoop()
 				else if (ret == 0)
 				{
 					printf("runing\n");
-					push(frame);
+					pushframe(frame);
 				}
 			}
 
