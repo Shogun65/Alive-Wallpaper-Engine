@@ -41,7 +41,7 @@ bool FrameQueue::push(AVFrame* Frame)
 	
 	_CondFull.wait(lock, [&]() 
 	{ 
-		return _BufferCount < (_SizeofBuffer - 1); // if Queue is full than wait
+		return _BufferCount < _SizeofBuffer; // if Queue is full than wait
 	});
 
 	printf("Pushing Frame on Tail: %d\n", _Tail);
@@ -53,7 +53,7 @@ bool FrameQueue::push(AVFrame* Frame)
 	_BufferCount++; // Add when we get frame
 	printf("BufferCount: %d\n", _BufferCount);
 
-	if(_Buffering && _StartThreshold >= _BufferCount)
+	if(_Buffering && _StartThreshold <= _BufferCount)
 	{
 		_Buffering = false;
 		printf("_Buffering Done!\n");
