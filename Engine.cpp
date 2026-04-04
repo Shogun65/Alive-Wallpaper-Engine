@@ -101,7 +101,8 @@ void Engine::MakeWindowRunwhitWorkerWandRunDXandswapchinWhitFFmpeg(HINSTANCE hIn
 {
 	_window.InitDebugConsole();
 	_framequeue.init(sizeofbuffer);
-	_framepool.init(sizeofbuffer);
+	_framepool.init(_framequeue.GetSizeofBuffer()); //do this because sizeofbuffer need to be clamp
+	// that happand on _framequeue.init thats why use geter func of sizeofbuffer
 	_window.CreateMainWindow(hInstance);
 	_workerW.SpawnWorkerW();
 	_workerW.FindWorkerW();
