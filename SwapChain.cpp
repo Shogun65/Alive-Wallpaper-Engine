@@ -21,6 +21,11 @@ ID3D11RenderTargetView* SwapChin::GetRTVOfBackBuffer() const
 	return _RTVForBackBuffer.Get();
 }
 
+ID3D11Texture2D* SwapChin::GetBackBuffer() const
+{
+	return _BackBuffer.Get();
+}
+
 void SwapChin::CreateSwapChin1(LONG Height, LONG Width, ID3D11Device* device)
 {
 	HRESULT hr;
