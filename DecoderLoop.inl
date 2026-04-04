@@ -6,24 +6,23 @@ void FFmpeg::RunDecoderLoop(Pushframe pushframe, GetFrame getframe, ReturnFrame 
 
 	while (_DecodedThreadruning)
 	{
-		printf("runing1\n");
 		if (av_read_frame(_FormatContext, Packet) < 0)
 		{
 			// End Of File
 			printf("Decoder thread stop!\n");
 			break;
 		}
-		printf("runing2\n");
+
 		if (Packet->stream_index == _VideoStreamIndex)
 		{
-			printf("runing3\n");
 			avcodec_send_packet(_CodecContext, Packet);
-			printf("runing4\n");
+			
 			while (true)
 			{
-				printf("runing5\n");
+				printf("Tring to get a AVFrame\n");
 				AVFrame* frame = getframe();
-				printf("runing6\n");
+				printf("Got a frame\n");
+
 				int ret = avcodec_receive_frame(_CodecContext, frame);
 
 				if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
@@ -38,7 +37,7 @@ void FFmpeg::RunDecoderLoop(Pushframe pushframe, GetFrame getframe, ReturnFrame 
 				}
 				else if (ret == 0)
 				{
-					printf("runing\n");
+					printf("Pushing Frame to Queue\n");
 					pushframe(frame);
 				}
 			}
