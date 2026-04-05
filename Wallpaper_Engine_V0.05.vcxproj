@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClInclude Include="DComp.h" />
     <ClInclude Include="DXDevice.h" />
+    <ClInclude Include="DXVA.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="FFmpeg.h" />
     <ClInclude Include="framework.h" />
@@ -156,6 +157,7 @@
   <ItemGroup>
     <ClCompile Include="DComp.cpp" />
     <ClCompile Include="DXDevice.cpp" />
+    <ClCompile Include="DXVA.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="FFmpeg.cpp" />
     <ClCompile Include="FramePool.cpp" />

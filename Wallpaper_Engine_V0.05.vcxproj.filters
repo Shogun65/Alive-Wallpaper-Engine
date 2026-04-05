@@ -31,6 +31,9 @@
     <Filter Include="Source Files\src\FFmpeg">
       <UniqueIdentifier>{09b591a2-7367-4136-9900-314765a6e784}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\src\DXVA">
+      <UniqueIdentifier>{1a1657bc-2024-400c-bbe6-0f378f817dc4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -68,6 +71,9 @@
     </ClInclude>
     <ClInclude Include="FFmpeg.h">
       <Filter>Source Files\src\FFmpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="DXVA.h">
+      <Filter>Source Files\src\DXVA</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +122,9 @@
     </ClCompile>
     <ClCompile Include="FramePool.cpp">
       <Filter>Source Files\src\FFmpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="DXVA.cpp">
+      <Filter>Source Files\src\DXVA</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
