@@ -132,4 +132,7 @@ AVPixelFormat FFmpeg::get_pix_format
 	return AV_PIX_FMT_YUV420P;
 }
 
-
+AVCodecContext* FFmpeg::GetCodecContext() const 
+{
+	return _CodecContext;
+}

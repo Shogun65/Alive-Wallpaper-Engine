@@ -71,6 +71,8 @@ public:
 		AVCodecContext* CodecCtx,
 		const AVPixelFormat* pix_fmt);
 
+	AVCodecContext* GetCodecContext() const;
+
 	template<typename Pushframe, typename GetFrame, typename ReturnFrame>
 	void RunDecoderLoop(Pushframe pushframe, GetFrame getframe, ReturnFrame returnframe);
 
