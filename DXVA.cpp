@@ -1,1 +1,123 @@
 #include "DXVA.h"
+
+void DXVA::InitVideoDeviceAndContext(
+	ID3D11Device* Device,
+	ID3D11DeviceContext* DeviceContext)
+{
+	Device->QueryInterface(
+		__uuidof(ID3D11VideoDevice),
+		(void**)_VideoDevice.Get()
+	);
+
+	DeviceContext->QueryInterface(
+		__uuidof(ID3D11VideoContext),
+		(void**)_VideoContext.Get()
+	);
+}
+
+void DXVA::ProcessVideoWidthAndHeight(AVCodecContext* CodecContext, UINT DWidth, UINT DHeight)
+{
+	RECT srcRECT = { 0, 0, CodecContext->width, CodecContext->height };
+	RECT dstRECT = { 0, 0, (LONG)DWidth, (LONG)DHeight };
+
+	_VideoContext->VideoProcessorSetStreamDestRect(
+		_VideoProcessor.Get(),
+		1,
+		TRUE,
+		&dstRECT
+	);
+
+	_VideoContext->VideoProcessorSetStreamSourceRect(
+		_VideoProcessor.Get(),
+		0,
+		TRUE,
+		&srcRECT
+	);
+}
+
+void DXVA::CreateOutputView(ID3D11Texture2D* BackBuffer)
+{
+	D3D11_VIDEO_PROCESSOR_OUTPUT_VIEW_DESC ovdesc = { };
+	ovdesc.ViewDimension = D3D11_VPOV_DIMENSION_TEXTURE2D;
+
+	_VideoDevice->CreateVideoProcessorOutputView(
+		BackBuffer,
+		_VideoProcessorEnum.Get(),
+		&ovdesc,
+		_VideoOutputView.GetAddressOf()
+	);
+
+}
+
+void DXVA::ProcessVideoColor(AVCodecContext* CodecContext)
+{
+	D3D11_VIDEO_PROCESSOR_COLOR_SPACE csdesc = { };
+
+	csdesc.Usage = 0;
+	csdesc.RGB_Range = (CodecContext->color_range == AVCOL_RANGE_JPEG) ? 1 : 0;
+
+	switch (CodecContext->colorspace)
+	{
+	case AVCOL_SPC_BT709:
+		csdesc.YCbCr_Matrix = 1;
+		break;
+
+	case AVCOL_SPC_BT470BG:
+	case AVCOL_SPC_SMPTE170M:
+		csdesc.YCbCr_Matrix = 0;
+		break;
+
+	default:
+		csdesc.YCbCr_Matrix = 1;
+		break;
+	}
+
+	csdesc.Nominal_Range = 0;
+	csdesc.YCbCr_xvYCC = 0;
+
+	_VideoContext->VideoProcessorSetStreamColorSpace(_VideoProcessor.Get(), 0, &csdesc);
+	_VideoContext->VideoProcessorSetOutputColorSpace(_VideoProcessor.Get(), &csdesc);
+}
+
+void DXVA::ProcessFrame(AVFrame* POPFrame)
+{
+
+
+
+}
+
+void DXVA::InitDXVA(
+	ID3D11Device* Device,
+	ID3D11DeviceContext* DeviceContext,
+	ID3D11Texture2D* BackBuffer,
+	AVCodecContext* CodecContext,
+	UINT DWidth, UINT DHeight)
+{
+	InitVideoDeviceAndContext(Device, DeviceContext);
+	
+	D3D11_VIDEO_PROCESSOR_CONTENT_DESC vpcdesc = { };
+
+	vpcdesc.Usage = D3D11_VIDEO_USAGE_PLAYBACK_NORMAL;
+	vpcdesc.InputWidth = CodecContext->width;
+	vpcdesc.InputHeight = CodecContext->height;
+	vpcdesc.OutputWidth = DWidth;
+	vpcdesc.OutputHeight = DHeight;
+	vpcdesc.InputFrameFormat = D3D11_VIDEO_FRAME_FORMAT_PROGRESSIVE;
+
+	_VideoDevice->CreateVideoProcessorEnumerator(
+		&vpcdesc,
+		_VideoProcessorEnum.GetAddressOf()
+	);
+
+	_VideoDevice->CreateVideoProcessor(
+		_VideoProcessorEnum.Get(), 
+		0, 
+		_VideoProcessor.GetAddressOf()
+	);
+
+
+	ProcessVideoColor(CodecContext);
+	ProcessVideoWidthAndHeight(CodecContext, DWidth, DHeight);
+	CreateOutputView(BackBuffer);
+}
+

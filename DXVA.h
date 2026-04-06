@@ -18,12 +18,14 @@ public:
 	*	
 	*	This func take care of most of createing stuff and init. so you 
 	*	dont need to worry much about init and createing stuff by your self.
+	*	NOTE:about those Width and Hight are swapchin W and H. so dont get confused!
 	*/
 	void InitDXVA(
 		ID3D11Device* Device,
 		ID3D11DeviceContext* DeviceContext,
 		ID3D11Texture2D* BackBuffer,
-		AVCodecContext* CodecContext
+		AVCodecContext* CodecContext,
+		UINT DWidth, UINT DHeight
 		);
 
 	/**
@@ -40,7 +42,7 @@ private:
 	ComPtr<ID3D11VideoProcessorInputView> _VideoInputView = nullptr;
 	ComPtr<ID3D11VideoProcessorOutputView> _VideoOutputView = nullptr;
 
-	void CreateOutputView();
+	void CreateOutputView(ID3D11Texture2D* BackBuffer);
 	void InitVideoDeviceAndContext(ID3D11Device* Device,
 		ID3D11DeviceContext* DeviceContext);
 	void ProcessVideoColor(AVCodecContext* CodecContext);
