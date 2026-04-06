@@ -22,8 +22,10 @@ public:
 	void InitDXVA(
 		ID3D11Device* Device,
 		ID3D11DeviceContext* DeviceContext,
-		ID3D11Texture2D* BackBuffer
+		ID3D11Texture2D* BackBuffer,
+		AVCodecContext* CodecContext
 		);
+
 	/**
 	*	This Func Process the AVFrame that we pop in render than
 	*	render that frame on backbuffer than we can persent!
@@ -38,11 +40,23 @@ private:
 	ComPtr<ID3D11VideoProcessorInputView> _VideoInputView = nullptr;
 	ComPtr<ID3D11VideoProcessorOutputView> _VideoOutputView = nullptr;
 
-	void CreateOutputView(ID3D11Device* Device,
+	void CreateOutputView();
+	void InitVideoDeviceAndContext(ID3D11Device* Device,
 		ID3D11DeviceContext* DeviceContext);
+	void ProcessVideoColor(AVCodecContext* CodecContext);
+	
+	//Those Width and Height are Swapchin W and H.
+	void ProcessVideoWidthAndHeight(
+		AVCodecContext* CodecContext, 
+		UINT DWidth, UINT DHeight);
 
-	void InitVideoDeviceAndContext();
-
+	/**
+	*	This Func get call by ProcessFrame where to call? 
+	*	On where he need inputview of texture2d there you just call this func and
+	*	he reture the ID3D11VideoProcessorInputView*.
+	*	NOTE: GetInputView use AVFrame data [0] and [1] to make inputview
+	*	means zero copy
+	*/
 	ID3D11VideoProcessorInputView* GetInputView(AVFrame* POPFrame);
 	
 };
