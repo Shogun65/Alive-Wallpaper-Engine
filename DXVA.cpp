@@ -79,6 +79,28 @@ void DXVA::ProcessVideoColor(AVCodecContext* CodecContext)
 	_VideoContext->VideoProcessorSetOutputColorSpace(_VideoProcessor.Get(), &csdesc);
 }
 
+ID3D11VideoProcessorInputView* DXVA::GetInputView(AVFrame* POPFrame)
+{
+
+	ID3D11Texture2D* NV12Frame = (ID3D11Texture2D*)POPFrame->data[0];
+
+	int subresorce = (int)(intptr_t)POPFrame->data[1];
+
+	D3D11_VIDEO_PROCESSOR_INPUT_VIEW_DESC ivdesc = { };
+
+	ivdesc.Texture2D.ArraySlice = subresorce; // verry improtand
+	ivdesc.ViewDimension = D3D11_VPIV_DIMENSION_TEXTURE2D;
+
+	_VideoDevice->CreateVideoProcessorInputView(
+		NV12Frame,
+		_VideoProcessorEnum.Get(),
+		&ivdesc,
+		_VideoInputView.GetAddressOf()
+	);
+
+	return _VideoInputView.Get();
+}
+
 void DXVA::ProcessFrame(AVFrame* POPFrame)
 {
 
