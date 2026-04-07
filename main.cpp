@@ -9,7 +9,8 @@ int WINAPI wWinMain(
 	
 	Engine engine;
 
-	const char* fileparth = "C:/Users/gmy87/Downloads/ayanami-rei-beneath-blue-light.3840x2160.mp4";
+	const char* fileparth = 
+		"C:/Users/gmy87/Downloads/saber-excalibur-fate-stay-night-moewalls-com.mp4";
 
 
 
