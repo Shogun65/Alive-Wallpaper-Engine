@@ -103,8 +103,17 @@ ID3D11VideoProcessorInputView* DXVA::GetInputView(AVFrame* POPFrame)
 
 void DXVA::ProcessFrame(AVFrame* POPFrame)
 {
-
-
+	D3D11_VIDEO_PROCESSOR_STREAM vps = { };
+	vps.Enable = TRUE;
+	vps.pInputSurface = GetInputView(POPFrame);
+	
+	_VideoContext->VideoProcessorBlt(
+		_VideoProcessor.Get(),
+		_VideoOutputView.Get(),
+		0,
+		1,
+		&vps
+	);
 
 }
 
