@@ -134,5 +134,8 @@
     <None Include="DecoderLoop.inl">
       <Filter>Source Files\src\FFmpeg</Filter>
     </None>
+    <None Include="Render.inl">
+      <Filter>Source Files\src\DX</Filter>
+    </None>
   </ItemGroup>
 </Project>

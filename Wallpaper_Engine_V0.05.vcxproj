@@ -170,6 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DecoderLoop.inl" />
+    <None Include="Render.inl" />
     <None Include="Window.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
