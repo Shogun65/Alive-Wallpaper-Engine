@@ -6,13 +6,24 @@ void FFmpeg::RunDecoderLoop(Pushframe pushframe, GetFrame getframe, ReturnFrame 
 
 	while (_DecodedThreadruning)
 	{
-		if (av_read_frame(_FormatContext, Packet) < 0)
+		int ret = av_read_frame(_FormatContext, Packet);
+		if (ret == AVERROR_EOF)
 		{
-			// End Of File
-			printf("Decoder thread stop!\n");
+			printf("Looping video\n");
+
+			// Seek back to start
+			av_seek_frame(_FormatContext, -1, 0, AVSEEK_FLAG_BACKWARD);
+
+			// IMPORTANT: flush decoder buffers
+			avcodec_flush_buffers(_CodecContext);
+
+			continue; // keep looping
+		}
+		else if(ret != 0)
+		{
+			printf("Erron on decoder!\n");
 			break;
 		}
-
 		if (Packet->stream_index == _VideoStreamIndex)
 		{
 			avcodec_send_packet(_CodecContext, Packet);
