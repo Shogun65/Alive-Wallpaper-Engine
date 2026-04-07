@@ -74,15 +74,15 @@ AVFrame* FrameQueue::pop()
 	{
 		return (_BufferCount > 0) && (!_Buffering);
 	});
-	printf("Takeing Frame from head: %d", _Head);
+	printf("Takeing Frame from head: %d\n", _Head);
 	AVFrame* frame = _Buffer[_Head];
 
 	_Buffer[_Head] = nullptr; // good think to do. not really importand
 
 	_Head = (_Head + 1) % _SizeofBuffer;
-	printf("Next head: %d", _Head);
+	printf("Next head: %d\n", _Head);
 	_BufferCount--;
-	printf("Buffer count: %d", _BufferCount);
+	printf("Buffer count: %d\n", _BufferCount);
 	lock.unlock();
 
 	_CondFull.notify_one();
