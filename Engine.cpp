@@ -127,10 +127,28 @@ void Engine::MakeWindowRunwhitWorkerWandRunDXandswapchinWhitFFmpeg(HINSTANCE hIn
 		_dxdevice.GetDevice());
 	_swapchin.CreateRTVForBackBuffer(_dxdevice.GetDevice(), _dxdevice.GetDeviceContext());
 	_DComp.CreateDComp(_window.GetHWND(), _swapchin.GetSwapChin(), _dxdevice.GetDevice());
+	
+	_dxva.InitDXVA(
+		_dxdevice.GetDevice(),
+		_dxdevice.GetDeviceContext(),
+		_swapchin.GetBackBuffer(),
+		_ffmpeg.GetCodecContext(),
+		_swapchin.GetSwapChinWidth(),
+		_swapchin.GetSwapChinHeight()
+	);
+
 	_window.ShowMainWindow();
 
 	_window.MessageLoopRun([&]() 
-		{_render.cleanscreen(_swapchin.GetRTVOfBackBuffer(), 
-			_swapchin.GetSwapChin(), _dxdevice.GetDeviceContext()); });
+	{
+			_render.RenderFrame(_swapchin.GetRTVOfBackBuffer(),
+				_swapchin.GetSwapChin(),
+				_dxdevice.GetDeviceContext(),
+				[&]() {return _framequeue.pop(); },
+				[&](AVFrame* f) {_framepool.ReturnFrame(f); },
+				[&](AVFrame* f) {_dxva.ProcessFrame(f); }
+
+				);
+	});
 
 }

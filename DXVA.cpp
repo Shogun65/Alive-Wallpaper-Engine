@@ -6,12 +6,12 @@ void DXVA::InitVideoDeviceAndContext(
 {
 	Device->QueryInterface(
 		__uuidof(ID3D11VideoDevice),
-		(void**)_VideoDevice.Get()
+		(void**)_VideoDevice.GetAddressOf()
 	);
 
 	DeviceContext->QueryInterface(
 		__uuidof(ID3D11VideoContext),
-		(void**)_VideoContext.Get()
+		(void**)_VideoContext.GetAddressOf()
 	);
 }
 
