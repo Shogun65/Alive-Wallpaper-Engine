@@ -14,3 +14,4 @@ Release/
 *.vcxproj
 *.rc
 *.icon
+*.vcxproj.filters
