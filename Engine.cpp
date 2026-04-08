@@ -111,12 +111,12 @@ void Engine::MakeWindowRunwhitWorkerWandRunDXandswapchinWhitFFmpeg(HINSTANCE hIn
 	_ffmpeg.InitFFmpeg(fileparth, _dxdevice.GetDevice(), 
 		_dxdevice.GetDeviceContext(), _framequeue.GetSizeofBuffer());
 
-	_DecodeingLoop_Thread = std::thread([&]()
+	_DecodeingLoop_Thread = std::thread([this]()
 	{
 		_ffmpeg.RunDecoderLoop(
-			[&](AVFrame* f) {_framequeue.push(f); },
-			[&]() {return _framepool.GetFrame(); },
-			[&](AVFrame* f) {_framepool.ReturnFrame(f); }
+			[this](AVFrame* f) {_framequeue.push(f); },
+			[this]() {return _framepool.GetFrame(); },
+			[this](AVFrame* f) {_framepool.ReturnFrame(f); }
 		);
 		
 	});
@@ -139,14 +139,14 @@ void Engine::MakeWindowRunwhitWorkerWandRunDXandswapchinWhitFFmpeg(HINSTANCE hIn
 
 	_window.ShowMainWindow();
 
-	_window.MessageLoopRun([&]() 
+	_window.MessageLoopRun([this]() 
 	{
 			_render.RenderFrame(_swapchin.GetRTVOfBackBuffer(),
 				_swapchin.GetSwapChin(),
 				_dxdevice.GetDeviceContext(),
-				[&]() {return _framequeue.pop(); },
-				[&](AVFrame* f) {_framepool.ReturnFrame(f); },
-				[&](AVFrame* f) {_dxva.ProcessFrame(f); }
+				[this]() {return _framequeue.pop(); },
+				[this](AVFrame* f) {_framepool.ReturnFrame(f); },
+				[this](AVFrame* f) {_dxva.ProcessFrame(f); }
 
 				);
 	});

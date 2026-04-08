@@ -26,6 +26,6 @@ void Render::RenderFrame(
 	ProcessFrame(POPFrame);
 
 	swapchin1->Present(1, 0);
-
+	Sleep(1);//just for now
 	FrameReturn(POPFrame);
 }
