@@ -10,3 +10,7 @@ Release/
 *.user
 *.suo
 .vs/
+*.filters
+*.vcxproj
+*.rc
+*.icon
