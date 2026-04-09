@@ -1,18 +1,28 @@
 #include "DXVA.h"
+#include <cstdlib>
 
 void DXVA::InitVideoDeviceAndContext(
 	ID3D11Device* Device,
 	ID3D11DeviceContext* DeviceContext)
 {
-	Device->QueryInterface(
+	HRESULT hr;
+	hr = Device->QueryInterface(
 		__uuidof(ID3D11VideoDevice),
 		(void**)_VideoDevice.GetAddressOf()
 	);
 
-	DeviceContext->QueryInterface(
+	hr = DeviceContext->QueryInterface(
 		__uuidof(ID3D11VideoContext),
 		(void**)_VideoContext.GetAddressOf()
 	);
+
+	if(FAILED(hr))
+	{
+		MessageBox(nullptr, L"Error on InitVideoDeviceAndContext", L"Error on DXVA",
+			MB_ICONERROR);
+		std::exit(EXIT_FAILURE);
+	}
+
 }
 
 void DXVA::ProcessVideoWidthAndHeight(AVCodecContext* CodecContext, UINT DWidth, UINT DHeight)
