@@ -15,6 +15,7 @@ extern "C" {
 #include <libswresample/swresample.h>
 #include <libavutil/hwcontext_d3d11va.h>
 #include <libavutil/pixdesc.h>
+#include <libavutil/frame.h>
 }
 
 
@@ -41,14 +42,15 @@ public:
 
 	void init(int sizeofbuffer = 3);
 	int GetSizeofBuffer() const;
-	AVFrame* pop();
-	bool push(AVFrame* Frame);
+	AVFrame* pop(double& OutPtsSec);
+	bool push(AVFrame* Frame, double PtsSec);
 
 private:
 
-	AVFrame** _Buffer; // AVFrame** that we useing to store the pointer of AVFrame*
+	AVFrame** _Buffer = nullptr; // AVFrame** that we useing to store the pointer of AVFrame*
 
 	int _SizeofBuffer = 3; // A safe defualt
+	double* _PtsBuffer;
 	int _Head = 0; // read
 	int _Tail = 0; // write
 	int _BufferCount = 0;
@@ -84,7 +86,7 @@ private:
 	const AVCodec* _Codec = nullptr;
 	AVCodecParameters* _CodecParameter = nullptr;
 	AVCodecContext* _CodecContext = nullptr;
-
+	AVRational _VideoTimeBase{0, 1};
 	/*
 	*	This is going to run on deffrent thread. when it run when it stop?
 	*	This Loop start when FFmpeginit func done!.	

@@ -49,7 +49,13 @@ void FFmpeg::RunDecoderLoop(Pushframe pushframe, GetFrame getframe, ReturnFrame 
 				else if (ret == 0)
 				{
 					printf("Pushing Frame to Queue\n");
-					pushframe(frame);
+
+					int64_t ts = frame->best_effort_timestamp;
+					double ptsSec = 0.0;
+					if (ts != AV_NOPTS_VALUE) {
+						ptsSec = ts * av_q2d(_VideoTimeBase);
+					}
+					pushframe(frame, ptsSec);
 				}
 			}
 

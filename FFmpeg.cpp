@@ -56,6 +56,8 @@ void FFmpeg::InitFFmpeg(const char* fileparth,
 		std::exit(EXIT_FAILURE);
 	}
 
+	_VideoTimeBase = _FormatContext->streams[_VideoStreamIndex]->time_base;
+
 	_CodecParameter = _FormatContext->streams[_VideoStreamIndex]->codecpar;
 
 	_Codec = avcodec_find_decoder(_CodecParameter->codec_id);

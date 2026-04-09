@@ -11,10 +11,12 @@ void FrameQueue::init(int sizeofbuffer)
 	_SizeofBuffer = std::clamp(sizeofbuffer, 3, 18);
 	_StartThreshold = _SizeofBuffer;
 	_Buffer = new AVFrame* [_SizeofBuffer];
+	_PtsBuffer = new double[_SizeofBuffer];
 
 	for(int i = 0; i < _SizeofBuffer; i++)
 	{
 		_Buffer[i] = nullptr;
+		_PtsBuffer[i] = 0.0;
 	}
 	printf("Framequeue init done!\n");
 }
@@ -26,6 +28,7 @@ FrameQueue::~FrameQueue()
 		av_frame_free(&_Buffer[i]);
 	}
 	delete[] _Buffer;
+	delete[] _PtsBuffer;
 }
 
 // or you can say Queue size
@@ -35,7 +38,7 @@ int FrameQueue::GetSizeofBuffer() const
 	return _SizeofBuffer;
 }
 
-bool FrameQueue::push(AVFrame* Frame)
+bool FrameQueue::push(AVFrame* Frame, double PtsSec)
 {
 	std::unique_lock<std::mutex> lock(_Mutex);
 	
@@ -46,6 +49,7 @@ bool FrameQueue::push(AVFrame* Frame)
 
 	printf("Pushing Frame on Tail: %d\n", _Tail);
 	_Buffer[_Tail] = Frame; // put the frame pointer in Queue
+	_PtsBuffer[_Tail] = PtsSec;
 
 	_Tail = (_Tail + 1) % _SizeofBuffer; // move the Tail 
 	printf("Next Tail: %d\n", _Tail);
@@ -66,7 +70,7 @@ bool FrameQueue::push(AVFrame* Frame)
 	return true; // dont matter😅
 }
 
-AVFrame* FrameQueue::pop()
+AVFrame* FrameQueue::pop(double &OutPtsSec)
 {
 	std::unique_lock<std::mutex> lock(_Mutex);
 
@@ -76,8 +80,10 @@ AVFrame* FrameQueue::pop()
 	});
 	printf("Takeing Frame from head: %d\n", _Head);
 	AVFrame* frame = _Buffer[_Head];
+	OutPtsSec = _PtsBuffer[_Head];
 
 	_Buffer[_Head] = nullptr; // good think to do. not really importand
+	_PtsBuffer[_Head] = 0.0;
 
 	_Head = (_Head + 1) % _SizeofBuffer;
 	printf("Next head: %d\n", _Head);

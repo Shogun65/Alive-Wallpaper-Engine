@@ -114,7 +114,7 @@ void Engine::MakeWindowRunwhitWorkerWandRunDXandswapchinWhitFFmpeg(HINSTANCE hIn
 	_DecodeingLoop_Thread = std::thread([this]()
 	{
 		_ffmpeg.RunDecoderLoop(
-			[this](AVFrame* f) {_framequeue.push(f); },
+			[this](AVFrame* f, double pts) {_framequeue.push(f, pts); },
 			[this]() {return _framepool.GetFrame(); },
 			[this](AVFrame* f) {_framepool.ReturnFrame(f); }
 		);
@@ -144,7 +144,7 @@ void Engine::MakeWindowRunwhitWorkerWandRunDXandswapchinWhitFFmpeg(HINSTANCE hIn
 			_render.RenderFrame(_swapchin.GetRTVOfBackBuffer(),
 				_swapchin.GetSwapChin(),
 				_dxdevice.GetDeviceContext(),
-				[this]() {return _framequeue.pop(); },
+				[this](double &pts) {return _framequeue.pop(pts); },
 				[this](AVFrame* f) {_framepool.ReturnFrame(f); },
 				[this](AVFrame* f) {_dxva.ProcessFrame(f); }
 
