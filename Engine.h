@@ -25,7 +25,7 @@ public:
 		const char* filepart, int sizeofbuffer);
 //  ^^^^^^^^^^^^^^^^^^^
 
-
+	~Engine();
 
 
 private:

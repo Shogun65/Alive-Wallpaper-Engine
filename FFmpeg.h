@@ -75,6 +75,8 @@ public:
 
 	AVCodecContext* GetCodecContext() const;
 
+	void ShutDownDecoder();
+
 	template<typename Pushframe, typename GetFrame, typename ReturnFrame>
 	void RunDecoderLoop(Pushframe pushframe, GetFrame getframe, ReturnFrame returnframe);
 

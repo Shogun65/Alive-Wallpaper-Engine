@@ -138,3 +138,8 @@ AVCodecContext* FFmpeg::GetCodecContext() const
 {
 	return _CodecContext;
 }
+
+void FFmpeg::ShutDownDecoder()
+{
+	this->_DecodedThreadruning = false; //idk why i use this but it look cool hehe
+}

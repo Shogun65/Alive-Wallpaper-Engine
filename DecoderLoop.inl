@@ -10,7 +10,7 @@ void FFmpeg::RunDecoderLoop(Pushframe pushframe, GetFrame getframe, ReturnFrame 
 		if (ret == AVERROR_EOF)
 		{
 			printf("Looping video\n");
-
+			
 			// Seek back to start
 			av_seek_frame(_FormatContext, -1, 0, AVSEEK_FLAG_BACKWARD);
 

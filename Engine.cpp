@@ -1,5 +1,14 @@
 #include "Engine.h"
 
+Engine::~Engine()
+{
+	_ffmpeg.ShutDownDecoder();
+	if(_DecodeingLoop_Thread.joinable())
+	{
+		_DecodeingLoop_Thread.join();
+	}
+}
+
 void Engine::CreateNormalWindowAndRun(HINSTANCE hInstance)
 {
 	_window.InitDebugConsole();
@@ -148,7 +157,7 @@ void Engine::MakeWindowRunwhitWorkerWandRunDXandswapchinWhitFFmpeg(HINSTANCE hIn
 				[this](AVFrame* f) {_framepool.ReturnFrame(f); },
 				[this](AVFrame* f) {_dxva.ProcessFrame(f); }
 
-				);
+			);
 	});
 
 }
