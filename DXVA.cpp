@@ -18,7 +18,7 @@ void DXVA::InitVideoDeviceAndContext(
 
 	if(FAILED(hr))
 	{
-		MessageBox(nullptr, L"Error on InitVideoDeviceAndContext", L"Error on DXVA",
+		MessageBox(nullptr, L"Error on InitVideoDeviceAndContext Func", L"Error on DXVA",
 			MB_ICONERROR);
 		std::exit(EXIT_FAILURE);
 	}
@@ -47,15 +47,23 @@ void DXVA::ProcessVideoWidthAndHeight(AVCodecContext* CodecContext, UINT DWidth,
 
 void DXVA::CreateOutputView(ID3D11Texture2D* BackBuffer)
 {
+	HRESULT hr;
 	D3D11_VIDEO_PROCESSOR_OUTPUT_VIEW_DESC ovdesc = { };
 	ovdesc.ViewDimension = D3D11_VPOV_DIMENSION_TEXTURE2D;
 
-	_VideoDevice->CreateVideoProcessorOutputView(
+	hr = _VideoDevice->CreateVideoProcessorOutputView(
 		BackBuffer,
 		_VideoProcessorEnum.Get(),
 		&ovdesc,
 		_VideoOutputView.GetAddressOf()
 	);
+
+	if (FAILED(hr))
+	{
+		MessageBox(nullptr, L"Error on CreateOutputView Func", L"Error on DXVA",
+			MB_ICONERROR);
+		std::exit(EXIT_FAILURE);
+	}
 
 }
 
@@ -91,7 +99,7 @@ void DXVA::ProcessVideoColor(AVCodecContext* CodecContext)
 
 ID3D11VideoProcessorInputView* DXVA::GetInputView(AVFrame* POPFrame)
 {
-
+	HRESULT hr;
 	ID3D11Texture2D* NV12Frame = (ID3D11Texture2D*)POPFrame->data[0];
 
 	int subresorce = (int)(intptr_t)POPFrame->data[1];
@@ -101,12 +109,19 @@ ID3D11VideoProcessorInputView* DXVA::GetInputView(AVFrame* POPFrame)
 	ivdesc.Texture2D.ArraySlice = subresorce; // verry improtand
 	ivdesc.ViewDimension = D3D11_VPIV_DIMENSION_TEXTURE2D;
 
-	_VideoDevice->CreateVideoProcessorInputView(
+	hr = _VideoDevice->CreateVideoProcessorInputView(
 		NV12Frame,
 		_VideoProcessorEnum.Get(),
 		&ivdesc,
 		_VideoInputView.GetAddressOf()
 	);
+
+	if (FAILED(hr))
+	{
+		MessageBox(nullptr, L"Error on GetInputView Func", L"Error on DXVA",
+			MB_ICONERROR);
+		std::exit(EXIT_FAILURE);
+	}
 
 	return _VideoInputView.Get();
 }
@@ -134,6 +149,7 @@ void DXVA::InitDXVA(
 	AVCodecContext* CodecContext,
 	UINT DWidth, UINT DHeight)
 {
+	HRESULT hr;
 	InitVideoDeviceAndContext(Device, DeviceContext);
 	
 	D3D11_VIDEO_PROCESSOR_CONTENT_DESC vpcdesc = { };
@@ -145,17 +161,24 @@ void DXVA::InitDXVA(
 	vpcdesc.OutputHeight = DHeight;
 	vpcdesc.InputFrameFormat = D3D11_VIDEO_FRAME_FORMAT_PROGRESSIVE;
 
-	_VideoDevice->CreateVideoProcessorEnumerator(
+	hr = _VideoDevice->CreateVideoProcessorEnumerator(
 		&vpcdesc,
 		_VideoProcessorEnum.GetAddressOf()
 	);
 
-	_VideoDevice->CreateVideoProcessor(
+	hr = _VideoDevice->CreateVideoProcessor(
 		_VideoProcessorEnum.Get(), 
 		0, 
 		_VideoProcessor.GetAddressOf()
 	);
 
+
+	if (FAILED(hr))
+	{
+		MessageBox(nullptr, L"Error on InitDXVA Func", L"Error on DXVA",
+			MB_ICONERROR);
+		std::exit(EXIT_FAILURE);
+	}
 
 	ProcessVideoColor(CodecContext);
 	ProcessVideoWidthAndHeight(CodecContext, DWidth, DHeight);
