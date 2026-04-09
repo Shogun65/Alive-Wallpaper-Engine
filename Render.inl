@@ -53,6 +53,6 @@ void Render::RenderFrame(
 
 	ProcessFrame(POPFrame);
 
-	swapchin1->Present(1, 0);
+	swapchin1->Present(0, 0);
 	FrameReturn(POPFrame);
 }

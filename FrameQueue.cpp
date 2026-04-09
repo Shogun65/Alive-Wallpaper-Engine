@@ -47,20 +47,20 @@ bool FrameQueue::push(AVFrame* Frame, double PtsSec)
 		return _BufferCount < _SizeofBuffer; // if Queue is full than wait
 	});
 
-	printf("Pushing Frame on Tail: %d\n", _Tail);
+	//printf("Pushing Frame on Tail: %d\n", _Tail);
 	_Buffer[_Tail] = Frame; // put the frame pointer in Queue
 	_PtsBuffer[_Tail] = PtsSec;
 
 	_Tail = (_Tail + 1) % _SizeofBuffer; // move the Tail 
-	printf("Next Tail: %d\n", _Tail);
+	//printf("Next Tail: %d\n", _Tail);
 
 	_BufferCount++; // Add when we get frame
-	printf("BufferCount: %d\n", _BufferCount);
+	//printf("BufferCount: %d\n", _BufferCount);
 
 	if(_Buffering && _StartThreshold <= _BufferCount)
 	{
 		_Buffering = false;
-		printf("_Buffering Done!\n");
+		printf("_Buffering Done!, _BufferCount: %d\n", _BufferCount);
 	}
 
 	lock.unlock(); // before the notify_one!
@@ -78,7 +78,7 @@ AVFrame* FrameQueue::pop(double &OutPtsSec)
 	{
 		return (_BufferCount > 0) && (!_Buffering);
 	});
-	printf("Takeing Frame from head: %d\n", _Head);
+	//printf("Takeing Frame from head: %d\n", _Head);
 	AVFrame* frame = _Buffer[_Head];
 	OutPtsSec = _PtsBuffer[_Head];
 
@@ -86,9 +86,9 @@ AVFrame* FrameQueue::pop(double &OutPtsSec)
 	_PtsBuffer[_Head] = 0.0;
 
 	_Head = (_Head + 1) % _SizeofBuffer;
-	printf("Next head: %d\n", _Head);
+	//printf("Next head: %d\n", _Head);
 	_BufferCount--;
-	printf("Buffer count: %d\n", _BufferCount);
+	//printf("Buffer count: %d\n", _BufferCount);
 	lock.unlock();
 
 	_CondFull.notify_one();

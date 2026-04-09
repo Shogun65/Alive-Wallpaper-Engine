@@ -30,15 +30,15 @@ void FFmpeg::RunDecoderLoop(Pushframe pushframe, GetFrame getframe, ReturnFrame 
 			
 			while (true)
 			{
-				printf("Tring to get a AVFrame\n");
+				//printf("Tring to get a AVFrame\n");
 				AVFrame* frame = getframe();
-				printf("Got a frame\n");
+				//printf("Got a frame\n");
 
 				int ret = avcodec_receive_frame(_CodecContext, frame);
 
 				if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
 				{
-					printf("EAGAIN\n");
+					//printf("EAGAIN\n");
 					returnframe(frame);
 					break;
 				}
@@ -48,7 +48,7 @@ void FFmpeg::RunDecoderLoop(Pushframe pushframe, GetFrame getframe, ReturnFrame 
 				}
 				else if (ret == 0)
 				{
-					printf("Pushing Frame to Queue\n");
+					//printf("Pushing Frame to Queue\n");
 
 					int64_t ts = frame->best_effort_timestamp;
 					double ptsSec = 0.0;
