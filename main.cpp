@@ -7,7 +7,7 @@ int WINAPI wWinMain(
 	// ignore this
 	SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
 	
-	const char* fileparth;
+	const char* fileparth = "";
 	int buffersize = 3;
 
 	Engine engine;
@@ -36,5 +36,4 @@ int WINAPI wWinMain(
 		fileparth, buffersize);
 	
 	return EXIT_SUCCESS;
-
 }

@@ -1,4 +1,4 @@
-# Wallpaper Engine V0.05
+# Wallpaper Engine V0.06
 
 A lightweight Windows live-wallpaper prototype written in C++ with DirectX 11, DirectComposition, and FFmpeg hardware decode (D3D11VA).
 
@@ -16,7 +16,7 @@ Implemented:
 - Frame queue/pool with a dedicated decoder thread
 - Basic PTS-based playback timing and loop-at-EOF behavior
 
-Not implemented yet (as of v0.05):
+Not implemented yet (as of v0.06):
 - In-app UI/settings
 - Dynamic wallpaper selection
 - Audio playback
@@ -40,7 +40,7 @@ Not implemented yet (as of v0.05):
 
 ## Project Layout
 
-- `main.cpp`: app entry + current hardcoded video path
+- `main.cpp`: app entry + command-line parsing (`-f- <video_path>`)
 - `Engine.*`: high-level app orchestration
 - `WorkerW.*`: desktop `WorkerW` discovery/attachment logic
 - `Window.*`: wallpaper window creation + message loop
@@ -69,15 +69,18 @@ Not implemented yet (as of v0.05):
 
 ## Run
 
-1. Edit the video path in `main.cpp`:
-   - `const char* fileparth = "C:/path/to/your/video.mp4";`
-2. Build and run from Visual Studio.
-3. The app attaches to desktop `WorkerW` and starts rendering as wallpaper.
+1. Build and run from Visual Studio (x64 Debug/Release).
+2. Pass the wallpaper video path through command arguments using this format:
+   - `-f- C:\path\to\your\video.mp4`
+3. Example:
+   - `.\x64\Release\Wallpaper_Engine_V0.06.exe -f- "C:\Videos\wallpaper.mp4"`
+4. The app attaches to desktop `WorkerW` and starts rendering as wallpaper.
 
 ## Notes
 
 - Queue size is currently passed from `main.cpp`:
-  - `engine.MakeWindowRunwhitWorkerWandRunDXandswapchinWhitFFmpeg(..., 6);`
+  - `engine.MakeWindowRunwhitWorkerWandRunDXandswapchinWhitFFmpeg(..., buffersize);`
+  - Current default: `int buffersize = 3;`
 - Frame queue clamps buffer size to `[3, 18]`.
 - Debug console logging is enabled in the current flow.
 
@@ -97,4 +100,3 @@ Not implemented yet (as of v0.05):
 This project is licensed under the GNU Affero General Public License v3.0.
 
 See [LICENSE](LICENSE) for full text.
-(this is writed why Codex yes iam lazy you know.)
