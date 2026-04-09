@@ -97,4 +97,4 @@ Not implemented yet (as of v0.05):
 This project is licensed under the GNU Affero General Public License v3.0.
 
 See [LICENSE](LICENSE) for full text.
-
+(this is writed why Codex yes iam lazy you know.)
