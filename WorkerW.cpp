@@ -25,8 +25,8 @@ void WorkerW::SpawnWorkerW()
 	SendMessageTimeout(
 		_Progman,
 		0x052C,
-		0,
-		0,
+		0xD,
+		1,
 		SMTO_NORMAL,
 		1000,
 		nullptr
@@ -35,8 +35,8 @@ void WorkerW::SpawnWorkerW()
 	SendMessageTimeout(
 		_Progman,
 		0x052C,
-		0xD,
-		1,
+		0,
+		0,
 		SMTO_NORMAL,
 		1000,
 		nullptr
