@@ -100,3 +100,4 @@ Not implemented yet (as of v0.06):
 This project is licensed under the GNU Affero General Public License v3.0.
 
 See [LICENSE](LICENSE) for full text.
+(This Writed by Codex Because iam lazy)
