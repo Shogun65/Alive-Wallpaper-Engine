@@ -52,20 +52,18 @@ Not implemented yet (as of v0.05):
 
 ## Build Setup (Visual Studio)
 
-1. Open `Wallpaper_Engine_V0.05.vcxproj` in Visual Studio.
-2. Select `x64` (`Debug` or `Release`).
-3. Configure FFmpeg include path:
+1. Configure FFmpeg include path:
    - Project Properties -> `C/C++` -> `General` -> `Additional Include Directories`
-4. Configure FFmpeg library path:
+2. Configure FFmpeg library path:
    - Project Properties -> `Linker` -> `General` -> `Additional Library Directories`
-5. Ensure these linker inputs are present:
+3. Ensure these linker inputs are present:
    - `avcodec.lib`
    - `avformat.lib`
    - `avutil.lib`
    - `swscale.lib`
    - `swresample.lib`
    - `avdevice.lib`
-6. Make FFmpeg runtime DLLs available to the executable:
+4. Make FFmpeg runtime DLLs available to the executable:
    - Copy FFmpeg `bin/*.dll` next to the built `.exe`, or
    - Add FFmpeg `bin` directory to your system/user `PATH`.
 
