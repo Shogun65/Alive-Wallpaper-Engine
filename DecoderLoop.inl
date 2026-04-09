@@ -10,9 +10,15 @@ void FFmpeg::RunDecoderLoop(Pushframe pushframe, GetFrame getframe, ReturnFrame 
 		if (ret == AVERROR_EOF)
 		{
 			printf("Looping video\n");
-			
-			// Seek back to start
-			av_seek_frame(_FormatContext, -1, 0, AVSEEK_FLAG_BACKWARD);
+
+			av_packet_unref(Packet);
+
+			ret = av_seek_frame(_FormatContext, _VideoStreamIndex, 0, AVSEEK_FLAG_BACKWARD);
+			if (ret < 0)
+			{
+				printf("Seek failed on loop!\n");
+				break;
+			}
 
 			// IMPORTANT: flush decoder buffers
 			avcodec_flush_buffers(_CodecContext);
@@ -26,7 +32,13 @@ void FFmpeg::RunDecoderLoop(Pushframe pushframe, GetFrame getframe, ReturnFrame 
 		}
 		if (Packet->stream_index == _VideoStreamIndex)
 		{
-			avcodec_send_packet(_CodecContext, Packet);
+			int sendRet = avcodec_send_packet(_CodecContext, Packet);
+			if (sendRet < 0)
+			{
+				printf("Decoder send packet error!\n");
+				av_packet_unref(Packet);
+				continue;
+			}
 			
 			while (true)
 			{
@@ -45,6 +57,8 @@ void FFmpeg::RunDecoderLoop(Pushframe pushframe, GetFrame getframe, ReturnFrame 
 				else if (ret < 0)
 				{
 					printf("Decoder error!\n");
+					returnframe(frame);
+					break;
 				}
 				else if (ret == 0)
 				{

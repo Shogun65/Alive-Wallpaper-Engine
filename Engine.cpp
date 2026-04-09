@@ -43,7 +43,7 @@ void Engine::testDx()
 
 void Engine::testDXandSwapchin(HINSTANCE hInstance)
 {
-	_window.InitDebugConsole();
+	
 	_window.CreateMainWindow(hInstance);
 	_dxdevice.CreateDeviceAndDeviceContext();
 

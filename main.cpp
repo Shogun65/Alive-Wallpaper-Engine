@@ -7,7 +7,7 @@ int WINAPI wWinMain(
 	// ignore this
 	SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
 	
-	const char* fileparth = "";
+	const char* fileparth = "C:/Users/gmy87/Downloads/female-endministrator.3840x2160.mp4";
 	int buffersize = 3;
 
 	Engine engine;

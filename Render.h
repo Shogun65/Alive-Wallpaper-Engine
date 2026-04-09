@@ -36,7 +36,7 @@ private:
 	LARGE_INTEGER _QpcStart{};
 	double _FirstPtsSec = 0.0;
 	double _LastPtsSec = 0.0;
-
-
+	AVFrame* _POPFrame = nullptr;
+	double _ptsSec = 0.0;
 };
 #include "Render.inl"

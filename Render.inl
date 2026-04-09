@@ -21,29 +21,32 @@ void Render::RenderFrame(
 		green_color
 	);
 
-	double ptsSec = 0.0;
-	AVFrame* POPFrame = FramePOP(ptsSec);
+	if (_POPFrame == nullptr) 
+	{
+		_ptsSec = 0.0;
+		_POPFrame = FramePOP(_ptsSec);
+	}
 
 	if (!_ClockStarted) {
 		QueryPerformanceFrequency(&_QpcFreq);
 		QueryPerformanceCounter(&_QpcStart);
-		_FirstPtsSec = ptsSec;
-		_LastPtsSec = ptsSec;
+		_FirstPtsSec = _ptsSec;
+		_LastPtsSec = _ptsSec;
 		_ClockStarted = true;
 	}
 
 	// loop restart detect: pts jumps backwards
-	if (ptsSec + 0.5 < _LastPtsSec) {
+	if (_ptsSec + 0.5 < _LastPtsSec) {
 		QueryPerformanceCounter(&_QpcStart);
-		_FirstPtsSec = ptsSec;
+		_FirstPtsSec = _ptsSec;
 	}
-	_LastPtsSec = ptsSec;
+	_LastPtsSec = _ptsSec;
 
 	LARGE_INTEGER now{};
 	QueryPerformanceCounter(&now);
 
 	double elapsedSec = double(now.QuadPart - _QpcStart.QuadPart) / double(_QpcFreq.QuadPart);
-	double targetSec = ptsSec - _FirstPtsSec;
+	double targetSec = _ptsSec - _FirstPtsSec;
 	double waitSec = targetSec - elapsedSec;
 
 	if (waitSec > 0.0) {
@@ -51,8 +54,9 @@ void Render::RenderFrame(
 		if (ms > 0) Sleep(ms);
 	}
 
-	ProcessFrame(POPFrame);
+	ProcessFrame(_POPFrame);
 
 	swapchin1->Present(0, 0);
-	FrameReturn(POPFrame);
+	FrameReturn(_POPFrame);
+	_POPFrame = nullptr;
 }
