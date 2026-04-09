@@ -29,6 +29,14 @@ public:
 
 
 private:
-	//idk
+	
+private:
+	bool _ClockStarted = false;
+	LARGE_INTEGER _QpcFreq{};
+	LARGE_INTEGER _QpcStart{};
+	double _FirstPtsSec = 0.0;
+	double _LastPtsSec = 0.0;
+
+
 };
 #include "Render.inl"

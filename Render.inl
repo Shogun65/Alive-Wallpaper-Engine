@@ -21,11 +21,38 @@ void Render::RenderFrame(
 		green_color
 	);
 
-	AVFrame* POPFrame = FramePOP();
+	double ptsSec = 0.0;
+	AVFrame* POPFrame = FramePOP(ptsSec);
+
+	if (!_ClockStarted) {
+		QueryPerformanceFrequency(&_QpcFreq);
+		QueryPerformanceCounter(&_QpcStart);
+		_FirstPtsSec = ptsSec;
+		_LastPtsSec = ptsSec;
+		_ClockStarted = true;
+	}
+
+	// loop restart detect: pts jumps backwards
+	if (ptsSec + 0.5 < _LastPtsSec) {
+		QueryPerformanceCounter(&_QpcStart);
+		_FirstPtsSec = ptsSec;
+	}
+	_LastPtsSec = ptsSec;
+
+	LARGE_INTEGER now{};
+	QueryPerformanceCounter(&now);
+
+	double elapsedSec = double(now.QuadPart - _QpcStart.QuadPart) / double(_QpcFreq.QuadPart);
+	double targetSec = ptsSec - _FirstPtsSec;
+	double waitSec = targetSec - elapsedSec;
+
+	if (waitSec > 0.0) {
+		DWORD ms = (DWORD)(waitSec * 1000.0);
+		if (ms > 0) Sleep(ms);
+	}
 
 	ProcessFrame(POPFrame);
 
 	swapchin1->Present(1, 0);
-	Sleep(1);//just for now
 	FrameReturn(POPFrame);
 }
