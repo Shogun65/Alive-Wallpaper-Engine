@@ -1,4 +1,4 @@
-# Wallpaper Engine V0.06
+# Wallpaper Engine V0.07
 
 A lightweight Windows live-wallpaper prototype written in C++ with DirectX 11, DirectComposition, and FFmpeg hardware decode (D3D11VA).
 
@@ -16,7 +16,7 @@ Implemented:
 - Frame queue/pool with a dedicated decoder thread
 - Basic PTS-based playback timing and loop-at-EOF behavior
 
-Not implemented yet (as of v0.06):
+Not implemented yet (as of v0.07):
 - In-app UI/settings
 - Dynamic wallpaper selection
 - Audio playback
