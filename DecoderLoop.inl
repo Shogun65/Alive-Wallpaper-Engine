@@ -21,7 +21,7 @@ void FFmpeg::RunDecoderLoop(Pushframe pushframe, GetFrame getframe, ReturnFrame 
 			}
 
 			// IMPORTANT: flush decoder buffers
-			avcodec_flush_buffers(_CodecContext);
+			//avcodec_flush_buffers(_CodecContext);
 
 			continue; // keep looping
 		}

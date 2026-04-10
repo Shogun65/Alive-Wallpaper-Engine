@@ -113,8 +113,8 @@ ID3D11VideoProcessorInputView* DXVA::GetInputView(AVFrame* POPFrame)
 		NV12Frame,
 		_VideoProcessorEnum.Get(),
 		&ivdesc,
-		_VideoInputView.GetAddressOf()
-	);
+		_VideoInputView.ReleaseAndGetAddressOf()
+		);
 
 	if (FAILED(hr))
 	{

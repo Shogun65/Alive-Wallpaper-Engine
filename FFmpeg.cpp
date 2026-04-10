@@ -128,9 +128,11 @@ AVPixelFormat FFmpeg::get_pix_format
 	{
 		if(*p == AV_PIX_FMT_D3D11)
 		{
+			printf("AV_PIX_FMT_D3D11\n");
 			return *p;
 		}
 	}
+	printf("AV_PIX_FMT_YUV420P\n");
 	return AV_PIX_FMT_YUV420P;
 }
 
