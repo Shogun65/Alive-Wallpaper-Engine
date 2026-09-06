@@ -87,6 +87,8 @@ pub mod save_path_and_settings {
     pub const STARTUP_FILE_SAVE_NAME: &str = "RanamiWallpapers-startup-file.txt";
     pub const DEBUG_LOG_FILE_NAME: &str = "debug.txt";
     pub const CREATE_NO_WINDOW: u32 = 0x08000000;
+    pub const STATIC_CACHE_WALLPAPER_DIR: &str = "static-wallpapers-cache";
+    pub const STATIC_WALLPAPER_EXTENSION: &str = "jpg";
 
     pub fn app_storage_dir() -> Result<PathBuf, io::Error> {
         // Keep user data in LocalAppData so wallpapers and thumbnails are not tied to the repo folder.
@@ -129,6 +131,16 @@ pub mod save_path_and_settings {
     pub fn legacy_startup_file_path() -> Result<PathBuf, io::Error> {
         Ok(env::current_dir()?.join(STARTUP_FILE_SAVE_NAME))
     }
+
+    pub fn static_wallpapers_cache_dir_path() -> Result<PathBuf, io::Error>
+    {
+        let cache_dir_static_wallpaper = app_storage_dir()?.join(STATIC_CACHE_WALLPAPER_DIR);
+
+        fs::create_dir_all(&cache_dir_static_wallpaper)?;
+        
+        Ok(cache_dir_static_wallpaper)
+    }
+
 }
 
 pub mod error_code_core {
