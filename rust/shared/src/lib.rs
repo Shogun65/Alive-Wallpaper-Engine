@@ -89,6 +89,7 @@ pub mod save_path_and_settings {
     pub const CREATE_NO_WINDOW: u32 = 0x08000000;
     pub const STATIC_CACHE_WALLPAPER_DIR: &str = "static-wallpapers-cache";
     pub const STATIC_WALLPAPER_EXTENSION: &str = "jpg";
+    pub const STATIC_WALLPAPER_PERFIX: &str = "static-wallpapers-cache-";
 
     pub fn app_storage_dir() -> Result<PathBuf, io::Error> {
         // Keep user data in LocalAppData so wallpapers and thumbnails are not tied to the repo folder.
