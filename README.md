@@ -14,7 +14,7 @@ It lets you use videos as your desktop wallpaper with a simple interface for imp
 - 📚 Wallpaper library
 - 📋 Wallpaper information (resolution, duration, file size)
 - ⚡ Double-click a wallpaper to apply it
-- 🚀 Optional startup with Windows
+- 🚀 Startup with Windows
 - 💾 Automatically remembers your last wallpaper
 
 ## Installation
