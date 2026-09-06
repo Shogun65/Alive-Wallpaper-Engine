@@ -6,7 +6,6 @@ pub mod set_wallpaper{
 		CREATE_NO_WINDOW,
 		THUMBNAIL_TIMESTAMP,
 		static_wallpapers_cache_dir_path,
-		STATIC_WALLPAPER_PERFIX,
 		STATIC_WALLPAPER_EXTENSION
 	};
 	use std::os::windows::process::CommandExt;
@@ -48,8 +47,8 @@ pub mod set_wallpaper{
 
         if !status.success() {
             return Err(format!(
-                "ffmpeg failed while generating thumbnail for {}",
-                video_path.display()
+                "ffmpeg failed while generating thumbnail for {}, status code: {}",
+                video_path.display(), status.code().unwrap_or(2627)
             ));
         }
 
@@ -84,11 +83,23 @@ pub mod set_wallpaper{
     		})?;
 
     	let static_wallpaper_name = static_wallpaper_dir.join(format!("{}_{}.{}",
-    		STATIC_WALLPAPER_PERFIX,
-    		video_path.file_stem().and_then(|str| str.to_str()).unwrap_or("err"),
+    		stable_path_hash(&video_path.to_string_lossy()),
+    		&video_path.file_stem().and_then(|str| str.to_str()).unwrap_or("err"),
     		STATIC_WALLPAPER_EXTENSION));
 
     	return Ok(static_wallpaper_name);
+    }
+
+    fn stable_path_hash(path: &str) -> String {// idk how it work talk to codex
+        // A tiny stable hash is enough here; it just prevents thumbnail file name collisions.
+        let mut hash: u64 = 0xcbf29ce484222325;
+
+        for byte in path.as_bytes() {
+            hash ^= u64::from(*byte);
+            hash = hash.wrapping_mul(0x100000001b3);
+        }
+
+        format!("{hash:016x}")
     }
 
 }
