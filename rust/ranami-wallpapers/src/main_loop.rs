@@ -17,7 +17,7 @@ use std::{
     time::Duration,
 };
 
-use crate::set_wallpaper_on_wndow::set_wallpaper::generate_static_wallpaper;
+use crate::set_wallpaper_on_wndow::set_wallpaper::set_static_wallpaper;
 
 pub fn main_loop(
     namepipecommands: Arc<Mutex<NamePipeCommands>>,
@@ -106,6 +106,12 @@ pub fn main_loop(
                     kill_tray_and_set_engine_hwnd_to_0(&mut current_child_tray);
                 }
 
+                // static wallpaper set here                
+                let a = set_static_wallpaper(std::path::PathBuf::from(&wallpaper_path));
+                #[cfg(debug_assertions)]
+                println!("generate_static_wallpaper: {:#?}", a);
+                //
+
                 let child = run_wallpaper_engine(&wallpaper_path, "3", client_hwnd)?;
 
                 let save_file_1_result = save_file_1(
@@ -114,11 +120,6 @@ pub fn main_loop(
                 if let Err(err) = save_file_1_result {
                     err_log(&format!("err on save_file_1 on main_loop: {}", err));
                 }
-
-                // testing                
-                let a = generate_static_wallpaper(std::path::Path::new(&wallpaper_path));
-                println!("generate_static_wallpaper: {:#?}", a);
-                //
 
                 current_child = Some(child);
                 current_wallpaper = Some(wallpaper_path);
@@ -235,10 +236,17 @@ fn check_foreground_window(
             
             if !hwnds.is_invalid() && IsZoomed(hwnds.clone()).into()
             {
+                #[cfg(debug_assertions)]
                 println!("runing");
+
+                #[cfg(debug_assertions)]
                 println!("current_child: {:?}", current_child);
+
                 kill_ranami_core(current_child);
+
+                #[cfg(debug_assertions)]
                 println!("current_child after kill_ranami_core: {:?}", current_child);
+                
                 // ok you will be confued why this doing here well to use current wallpaper let me explain
                 // ranami_crash take current wallpaper and make as next_wallpaper simple enough
                 // but why we useing this because it work perfactly fine and also we write less code

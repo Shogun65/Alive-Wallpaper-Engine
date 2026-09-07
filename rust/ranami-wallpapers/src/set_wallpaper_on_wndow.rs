@@ -116,12 +116,16 @@ pub mod set_wallpaper{
         let handle = thread::spawn(move ||{
 
             if need_genration(&video_path){
+                println!("[INFO] need_genration");
                 let result = generate_static_wallpaper(&video_path);
 
                 match result {
                     Ok(_) => {},
                     Err(err) => {println!("Err on generate_static_wallpaper: {err}"); return;},
                 }
+            }
+            else{
+                println!("[INFO] DONT need_genration");
             }
 
             let static_wallpaper_path = get_static_wallpaper_save_path(&video_path);
