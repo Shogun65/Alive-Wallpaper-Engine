@@ -16,4 +16,11 @@ void Window::MessageLoopRun(render renderfunc)
         }
 
     }
+    printf("WM_QUIT wParam = %llu\n",
+       static_cast<unsigned long long>(msg.wParam));
+
+    unsigned long long wm_quit_message = static_cast<unsigned long long>(msg.wParam);
+
+    std::exit(wm_quit_message);
+
 }

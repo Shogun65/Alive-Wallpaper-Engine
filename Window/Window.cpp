@@ -24,7 +24,7 @@ void Window::InitDebugConsole()
     setvbuf(stderr, NULL, _IONBF, 0);
      
     printf("----Debug console----\n");
-    printf("----EXE VERSION: V0.2.0----\n");
+    printf("----EXE VERSION: V0.3.0----\n");
     fflush(stdout);
 }
 
@@ -38,7 +38,8 @@ LRESULT CALLBACK Window::WindowProc(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM 
     {
         case WM_DESTROY:
         {
-            PostQuitMessage(0);
+            //MessageBoxW(nullptr, L"WM_DESTROY Engine get call to exit", L"Error", MB_ICONERROR);
+            PostQuitMessage(1);
             return 0;
         }
 
@@ -52,10 +53,10 @@ LRESULT CALLBACK Window::WindowProc(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM 
 
         case _WM_ENGINE_EXIT:
         {
+            //MessageBoxW(nullptr, L"Engine get call to exit", L"Error", MB_ICONERROR);
             PostQuitMessage(0);
             return 0;
         }
-
 
     }
     return DefWindowProcW(hwnd, umsg, wparam, lparam);
