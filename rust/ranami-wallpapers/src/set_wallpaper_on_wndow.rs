@@ -10,8 +10,17 @@ pub mod set_wallpaper{
 	};
 	use std::os::windows::process::CommandExt;
 	use std::ffi::OsStr;
+    use std::thread::{self, JoinHandle};
+    use windows::Win32::UI::WindowsAndMessaging::{
+        SystemParametersInfoW,
+        SPI_SETDESKWALLPAPER,
+        SPIF_SENDCHANGE,
+        SPIF_UPDATEINIFILE};
+    use windows::core::HSTRING;
 
-     pub fn generate_static_wallpaper(video_path: &Path) -> Result<(), String> {
+    use shared::log_err::err_log;
+
+     fn generate_static_wallpaper(video_path: &Path) -> Result<(), String> {
 
      	let (w, h) : (u64, u64) = get_primary_screen_size()?;
      	let static_wallpaper_path = get_static_wallpaper_save_path(&video_path)?;
@@ -100,6 +109,73 @@ pub mod set_wallpaper{
         }
 
         format!("{hash:016x}")
+    }
+
+    pub fn set_static_wallpaper(video_path: PathBuf)-> JoinHandle<()>{
+
+        let handle = thread::spawn(move ||{
+
+            if need_genration(&video_path){
+                let result = generate_static_wallpaper(&video_path);
+
+                match result {
+                    Ok(_) => {},
+                    Err(err) => {println!("Err on generate_static_wallpaper: {err}"); return;},
+                }
+            }
+
+            let static_wallpaper_path = get_static_wallpaper_save_path(&video_path);
+
+            let static_wallpaper_path = match static_wallpaper_path {
+                Ok(path) => path,
+                Err(err) => {println!("Err on generate_static_wallpaper: {err}"); return;},
+            };
+
+            if !set_static_wallpaper_on_desktop(&static_wallpaper_path){
+                println!("Err Cant set the static wallpaper! Check error.txt");
+            }
+
+        });
+
+        return handle;
+    }
+
+    fn need_genration(video_path: &Path) -> bool {
+
+        let wallpaper_full_path_hash = get_static_wallpaper_save_path(&video_path);
+    
+        let wallpaper_full_path_hash = match wallpaper_full_path_hash {
+            Ok(path) => path,
+            Err(err) =>{
+                println!("Err on need_genration: {err}");
+                let a = PathBuf::new();
+                a
+            },
+        };
+
+        if wallpaper_full_path_hash.exists(){ return false;}// it dont need
+
+        return true;// needed to genrated
+    }
+
+    fn set_static_wallpaper_on_desktop(video_path: &Path) -> bool{
+
+        let utf_16_path = HSTRING::from(video_path);
+        unsafe {
+            let result = SystemParametersInfoW(
+                    SPI_SETDESKWALLPAPER,
+                    0, 
+                    Some(utf_16_path.as_ptr() as *mut std::ffi::c_void), 
+                    SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
+
+            match result {
+                Ok(_) => return true,
+                Err(err) =>{
+                    err_log(&format!("Err on SystemParametersInfoW: {err}"));
+                    return false;
+                }
+            }
+        }
     }
 
 }
